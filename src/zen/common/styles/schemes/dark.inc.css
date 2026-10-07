@@ -5,3 +5,10 @@
 color-scheme: dark;
 --zen-backdrop-underlay: url("chrome://browser/content/zen-styles/zen-backdrop-filters.svg#underlay-dark");
 --zen-urlbar-outline-offset: -1px;
+--zen-frosted-fill: rgb(255 255 255 / 10%);
+--zen-frosted-stroke: rgb(255 255 255 / 25%);
+--zen-frosted-fg: rgb(255 255 255);
+--zen-frosted-muted: rgb(255 255 255 / 55%);
+--zen-frosted-hover: rgb(255 255 255 / 8%);
+--zen-frosted-divider: rgb(255 255 255 / 15%);
+--zen-frosted-backdrop: blur(24px) saturate(1.4) brightness(0.6);

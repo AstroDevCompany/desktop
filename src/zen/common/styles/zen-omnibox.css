@@ -274,59 +274,78 @@
     margin-inline-end: 0;
   }
 
-  /* Frosted glass stays light in dark mode, so the text has to be dark too. */
+  /* Frosted glass. The light and dark values come from schemes/*.inc.css. */
   @media not (prefers-reduced-transparency: reduce) {
     :root:not([zen-no-acrylic="true"]) & {
-      color-scheme: light;
-      --zen-frosted-text: rgb(28 28 30);
-      --toolbox-textcolor: var(--zen-frosted-text) !important;
-      --toolbar-field-color: var(--zen-frosted-text) !important;
-      --toolbar-field-focus-color: var(--zen-frosted-text) !important;
-      --toolbar-field-text-color: var(--zen-frosted-text) !important;
-      --toolbar-field-text-color-focus: var(--zen-frosted-text) !important;
-      --urlbarview-text-color-action: rgb(28 28 30 / 70%) !important;
-      --urlbarview-text-color-secondary: rgb(28 28 30 / 65%) !important;
-      --urlbarview-text-color-selected: var(--zen-frosted-text) !important;
-      --urlbarview-background-color-selected: rgb(0 0 0 / 9%) !important;
-      --urlbar-box-text-color: var(--zen-frosted-text) !important;
-      --text-color-deemphasized: rgb(28 28 30 / 60%) !important;
-      --input-color: var(--zen-frosted-text);
-      --urlbarview-separator-color: rgb(0 0 0 / 10%);
-      --urlbarview-background-color-hover: rgb(0 0 0 / 7%);
-      --toolbarbutton-icon-fill: var(--zen-frosted-text);
-      color: var(--zen-frosted-text) !important;
+      --toolbox-textcolor: var(--zen-frosted-fg) !important;
+      --toolbar-field-color: var(--zen-frosted-fg) !important;
+      --toolbar-field-focus-color: var(--zen-frosted-fg) !important;
+      --toolbar-field-text-color: var(--zen-frosted-fg) !important;
+      --toolbar-field-text-color-focus: var(--zen-frosted-fg) !important;
+      --urlbarview-text-color-action: var(--zen-frosted-muted) !important;
+      --urlbarview-text-color-secondary: var(--zen-frosted-muted) !important;
+      --urlbarview-text-color-selected: var(--zen-frosted-fg) !important;
+      --urlbarview-background-color-selected: var(--zen-frosted-hover) !important;
+      --urlbarview-background-color-hover: var(--zen-frosted-hover) !important;
+      --urlbarview-separator-color: var(--zen-frosted-divider) !important;
+      --urlbar-box-text-color: var(--zen-frosted-fg) !important;
+      --text-color-deemphasized: var(--zen-frosted-muted) !important;
+      --input-color: var(--zen-frosted-fg);
+      --toolbarbutton-icon-fill: var(--zen-frosted-fg);
+      color: var(--zen-frosted-fg) !important;
 
       & .urlbarView-row:not([selected]),
       & .urlbarView-title,
       & .urlbar-input {
-        color: var(--zen-frosted-text) !important;
+        color: var(--zen-frosted-fg) !important;
       }
 
       & .urlbarView-url,
       & .urlbarView-title-separator::before,
       & .urlbarView-action {
-        color: rgb(28 28 30 / 65%) !important;
+        color: var(--zen-frosted-muted) !important;
+      }
+
+      & .urlbar-input::placeholder {
+        color: var(--zen-frosted-muted) !important;
+      }
+
+      & .urlbarView-row-inner {
+        border-radius: 8px !important;
+      }
+
+      & .urlbar-input-container {
+        border-bottom: 1px solid var(--zen-frosted-divider);
       }
     }
   }
 
   & .urlbar-background {
     --zen-urlbar-background-base: light-dark(rgb(255, 255, 255), rgb(24 24 24));
-    @media not (prefers-reduced-transparency: reduce) {
-      :root:not([zen-no-acrylic="true"]) & {
-        --zen-urlbar-background-transparent: rgb(255 255 255 / 55%);
-      }
-    }
-    background-color: var(--zen-urlbar-background-transparent, var(--zen-urlbar-background-base)) !important;
-    box-shadow: 0 30px 140px -15px rgba(0, 0, 0, 0.45) !important;
+    background-color: var(--zen-urlbar-background-base) !important;
+    box-shadow: 0 30px 140px -15px light-dark(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)) !important;
     backdrop-filter: none !important;
     outline: 0.5px solid light-dark(rgba(0, 0, 0, 0.2), rgb(75, 75, 75)) !important;
     outline-offset: var(--zen-urlbar-outline-offset) !important;
 
     @media not (prefers-reduced-transparency: reduce) {
       :root:not([zen-no-acrylic="true"]) & {
-        outline: 1px solid rgb(255 255 255 / 55%) !important;
-        backdrop-filter: blur(40px) saturate(1.8) !important;
+        background-color: var(--zen-frosted-fill) !important;
+        outline: 1px solid var(--zen-frosted-stroke) !important;
+        outline-offset: -1px !important;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28) !important;
+        backdrop-filter: var(--zen-frosted-backdrop) !important;
+      }
+    }
+  }
+
+  /* Dim the window behind the floating bar, like a modal. */
+  &[zen-floating-urlbar="true"] .urlbar-background {
+    @media not (prefers-reduced-transparency: reduce) {
+      :root:not([zen-no-acrylic="true"]) & {
+        box-shadow:
+          0 20px 60px rgba(0, 0, 0, 0.28),
+          0 0 0 100vmax rgba(0, 0, 0, 0.4) !important;
       }
     }
   }
@@ -334,6 +353,11 @@
   &,
   .urlbar-background {
     border-radius: 15px !important;
+  }
+
+  &[zen-floating-urlbar="true"],
+  &[zen-floating-urlbar="true"] .urlbar-background {
+    border-radius: 24px !important;
   }
 
   &[breakout-extend][animate-searchmode="true"]::before {
