@@ -157,6 +157,11 @@
         <vbox id="PanelUI-zen-gradient-generator-custom-list">
         </vbox>
       </vbox>
+      <hbox id="PanelUI-zen-gradient-generator-reset" pack="center">
+        <button id="PanelUI-zen-gradient-generator-reset-default"
+                class="zen-theme-picker-reset"
+                data-l10n-id="zen-theme-picker-reset-default"/>
+      </hbox>
     </panelview>
   </panelmultiview>
 </panel>

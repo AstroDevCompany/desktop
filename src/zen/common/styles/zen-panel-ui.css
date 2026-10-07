@@ -31,25 +31,40 @@ panel[type="arrow"]:not(#feature-callout) {
   }
 
   @media (-moz-platform: linux) or ((-moz-platform: windows) and (not (-moz-windows-mica-popups))) {
+    --panel-background-color: rgb(255 255 255 / 58%) !important;
+    color-scheme: light !important;
+    color: rgb(28, 28, 30);
+    --panel-text-color: rgb(28, 28, 30);
+
     &::part(content) {
       /* stylelint-disable-next-line property-no-unknown */
-      corner-shape: round; 
+      corner-shape: round;
       border-radius: calc(var(--panel-border-radius) / var(--zen-squircle-value));
+      backdrop-filter: blur(32px) saturate(1.45);
+    }
+
+    @media (prefers-reduced-transparency: reduce) {
+      --panel-background-color: light-dark(rgb(244, 244, 244), rgb(31, 31, 31)) !important;
+
+      &::part(content) {
+        backdrop-filter: none;
+      }
     }
   }
 
   @media (-moz-platform: macos) {
-    &:is([nonnative], :not([type="arrow"])) {
-      appearance: auto !important;
-      -moz-default-appearance: menupopup;
-      /* We set the default background here, rather than on ::part(content),
-       * because otherwise it'd interfere with the native look. Non-native-looking
-       * popups should get their background via --panel-background */
-      background-color: Menu !important;
-    }
+    appearance: auto !important;
+    -moz-default-appearance: menupopup;
+    /* Light wash over the window blur. Dark mode still stays milky, not black. */
+    color-scheme: light !important;
+    background-color: transparent !important;
+    color: rgb(28, 28, 30);
+    --panel-text-color: rgb(28, 28, 30);
+    --panel-item-hover-bgcolor: rgb(0 0 0 / 8%);
+    --panel-item-active-bgcolor: rgb(0 0 0 / 14%);
 
     --panel-box-shadow-margin: 0px !important;
-    --panel-background-color: transparent !important;
+    --panel-background-color: rgb(255 255 255 / 42%) !important;
     --panel-border-color: transparent;
 
     /* Remove the shadow for the native panels, as macos already
@@ -60,8 +75,15 @@ panel[type="arrow"]:not(#feature-callout) {
     --panel-box-shadow: none;
 
     &::part(content) {
-      /* This shoudn't really be needed, but just in case */
-      background-color: transparent !important;
+      background-color: rgb(255 255 255 / 42%) !important;
+      backdrop-filter: blur(48px) saturate(1.8);
+      border-color: var(--panel-border-color);
+    }
+
+    @media (prefers-reduced-transparency: reduce) {
+      background-color: rgb(244, 244, 246) !important;
+      --panel-background-color: rgb(244, 244, 246) !important;
+      --panel-border-color: transparent;
     }
   }
 }

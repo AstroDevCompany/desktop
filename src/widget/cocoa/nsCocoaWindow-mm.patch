@@ -154,3 +154,110 @@ index 887e4c052d5dd2b73d4c2059463529fb4b09dcab..36da18e19018b1b216576c299f938e75
    RemoveAllChildren();
    if (mWindow && mWindowMadeHere) {
      CancelAllTransitions();
+@@ -7377,8 +7492,11 @@ void nsCocoaWindow::SetColorScheme(const Maybe<ColorScheme>& aScheme) {
+   if (!mWindow) {
+     return;
+   }
+-  NSAppearance* appearance =
+-      aScheme ? NSAppearanceForColorScheme(*aScheme) : nil;
++  // Popups stay in the light appearance so their glass is milky, not the
++  // dark menu material.
++  NSAppearance* appearance =
++      mWindowType == WindowType::Popup
++          ? [NSAppearance appearanceNamed:NSAppearanceNameAqua]
++          : (aScheme ? NSAppearanceForColorScheme(*aScheme) : nil);
+   if (mWindow.appearance != appearance) {
+     mWindow.appearance = appearance;
+   }
+@@ -8184,47 +8299,71 @@ static NSVisualEffectView* CreateVibrancyView(NSRect aFrame,
+ }
+ 
+ // Returns a retained view. The caller owns it.
++// Light frosted glass. VibrantLight keeps the material milky even in dark mode.
++static NSView* CreateFrostedGlassView(NSRect aFrame, CGFloat aCornerRadius) {
++  if (@available(macOS 26.0, *)) {
++    auto* glass = [[NSGlassEffectView alloc] initWithFrame:aFrame];
++    glass.cornerRadius = aCornerRadius;
++    // Clear glass is only a faint tint. Regular glass is the milky blur,
++    // and Aqua keeps it light while the browser is in dark mode.
++    glass.style = NSGlassEffectViewStyleRegular;
++    glass.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
++    glass.tintColor = [NSColor whiteColor];
++    return glass;
++  }
++  auto* view = CreateVibrancyView(
++      aFrame, NSVisualEffectMaterialUnderWindowBackground, aCornerRadius);
++  view.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantLight];
++  return view;
++}
++
+ - (NSView*)newEffectViewWrapperForStyle:(WindowShadow)aStyle {
+   const NSRect frame = self.contentView.frame;
+   switch (aStyle) {
+     case WindowShadow::Menu:
+-      if (@available(macOS 26.0, *)) {
+-        // Menus use glass rather than vibrancy from macOS 26 on, and the glass
+-        // view rounds its own corners.
+-        auto* glass = [[NSGlassEffectView alloc] initWithFrame:frame];
+-        glass.cornerRadius = GetMenuCornerRadius();
+-        return glass;
+-      }
+-      return CreateVibrancyView(frame, NSVisualEffectMaterialMenu,
+-                                GetMenuCornerRadius());
++    case WindowShadow::Panel:
++      return CreateFrostedGlassView(frame, GetMenuCornerRadius());
+ 
+     case WindowShadow::Tooltip:
+       return CreateVibrancyView(frame, NSVisualEffectMaterialToolTip,
+                                 GetTooltipCornerRadius());
+ 
+     case WindowShadow::None:
+-    case WindowShadow::Panel:
+       return [[NSView alloc] initWithFrame:frame];
+   }
+ }
+ 
+ // Add an effect view wrapper if needed so that the OS draws the appropriate
+ // vibrancy effect and window border.
+ - (void)setEffectViewWrapperForStyle:(WindowShadow)aStyle {
++  if (aStyle == WindowShadow::Menu || aStyle == WindowShadow::Panel) {
++    self.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
++  }
+   NSView* wrapper = [self newEffectViewWrapperForStyle:aStyle];
+   wrapper.wantsLayer = YES;
+   // Swap out our content view by the new view. Setting .contentView releases
+   // the old view.
+   NSView* childView = [self.mainChildView retain];
+   [childView removeFromSuperview];
+-  [wrapper addSubview:childView];
++  childView.frame = wrapper.bounds;
++  childView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
++  if (@available(macOS 26.0, *)) {
++    // Glass only blurs behind its contentView. A plain subview is painted
++    // over the effect, which leaves the popup looking flat and translucent.
++    if (NSGlassEffectView* glass = [wrapper isKindOfClass:[NSGlassEffectView class]]
++                                       ? (NSGlassEffectView*)wrapper
++                                       : nil) {
++      glass.contentView = childView;
++    } else {
++      [wrapper addSubview:childView];
++    }
++    if (ChildView* child = [childView isKindOfClass:[ChildView class]]
++                                ? (ChildView*)childView
++                                : nil) {
++      // Opaque layers hide the glass behind the popup contents.
++      NSView* pixels = child.pixelHostingView;
++      pixels.layer.opaque = NO;
++      pixels.layer.backgroundColor = nil;
++      for (CALayer* layer in pixels.layer.sublayers) {
++        layer.opaque = NO;
++        layer.backgroundColor = nil;
++      }
++    }
++  } else {
++    [wrapper addSubview:childView];
++  }
+   [childView release];
+   super.contentView = wrapper;
+   [wrapper release];
+ }

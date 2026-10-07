@@ -726,7 +726,7 @@ export class nsZenThemePicker extends nsZenMultiWindowFeature {
   }
 
   handlePanelCommand(event) {
-    const target = event.target.closest("toolbarbutton");
+    const target = event.target.closest("toolbarbutton, button");
     if (!target) {
       return;
     }
@@ -734,7 +734,21 @@ export class nsZenThemePicker extends nsZenMultiWindowFeature {
       case "PanelUI-zen-gradient-generator-color-custom-add":
         this.addCustomColor();
         break;
+      case "PanelUI-zen-gradient-generator-reset-default":
+        this.resetToDefaultTheme();
+        break;
     }
+  }
+
+  resetToDefaultTheme() {
+    const workspace = this.workspaceBeingEdited;
+    if (!workspace) {
+      return;
+    }
+    workspace.theme = nsZenThemePicker.getTheme();
+    this.useAlgo = "analogous";
+    gZenWorkspaces.saveWorkspace(workspace);
+    this.onWorkspaceChange(workspace);
   }
 
   spawnDot(dotData, primary = false) {
