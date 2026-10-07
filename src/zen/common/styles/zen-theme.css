@@ -55,7 +55,16 @@
     color-mix(in srgb, var(--zen-primary-color) 1%, var(--zen-branding-bg) 99%)
   );
 
-  --zen-dialog-background: light-dark(#fafbff, #1c1c1c);
+  /* In-content panels stay on the theme hue and sit darker than the browser chrome. */
+  --zen-panel-background: light-dark(
+    color-mix(in oklch, var(--zen-primary-color) 62%, black),
+    color-mix(in oklch, var(--zen-primary-color) 46%, black)
+  );
+  --zen-panel-raised-background: light-dark(
+    color-mix(in oklch, var(--zen-primary-color) 74%, black),
+    color-mix(in oklch, var(--zen-primary-color) 58%, black)
+  );
+  --zen-dialog-background: var(--zen-panel-background);
   --zen-urlbar-background: light-dark(
     color-mix(in srgb, var(--zen-primary-color) 3%, #f4f4f4 97%),
     color-mix(in srgb, var(--zen-primary-color) 4%, rgb(24, 24, 24) 96%)
@@ -132,11 +141,9 @@
     transparent 20%
   ) !important;
 
-  --in-content-page-background: var(--zen-colors-tertiary) !important;
-  --zen-in-content-dialog-background: light-dark(
-    var(--zen-colors-tertiary),
-    var(--zen-branding-bg)
-  );
+  --in-content-page-background: var(--zen-panel-background) !important;
+  --background-color-canvas: var(--zen-panel-background);
+  --zen-in-content-dialog-background: var(--zen-panel-background);
 
   --zen-button-padding: 0.6rem 1.2rem;
 
@@ -356,6 +363,14 @@
   &[zen-should-be-dark-mode='false'] #browser {
 %include schemes/light.inc.css
   }
+}
+
+html:root,
+:root[dialogroot] {
+  color-scheme: dark;
+  --background-color-canvas: var(--zen-panel-background) !important;
+  --background-color-box: var(--zen-panel-raised-background) !important;
+  --background-color-box-info: var(--zen-panel-raised-background) !important;
 }
 
 %include zen-buttons.css

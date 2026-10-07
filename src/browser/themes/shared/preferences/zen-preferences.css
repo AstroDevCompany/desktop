@@ -36,7 +36,7 @@ html|dialog {
 
 .navigation {
   padding: 4%;
-  background: var(--zen-colors-tertiary);
+  background: color-mix(in oklch, var(--zen-panel-background) 82%, black);
 }
 
 groupbox button {
@@ -45,7 +45,7 @@ groupbox button {
 
 groupbox button,
 groupbox menulist {
-  background-color: light-dark(#f1f1f1, #363636);
+  background-color: var(--zen-panel-raised-background);
   color: light-dark(black, white);
 }
 
@@ -95,7 +95,7 @@ groupbox h2 {
   display: flex;
   border-radius: 10px;
   border: 1px solid var(--zen-colors-border);
-  background: var(--zen-colors-tertiary);
+  background: var(--zen-panel-raised-background);
   position: relative;
   --zen-compact-mode-styles-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
 
@@ -237,7 +237,7 @@ groupbox h2 {
   flex-direction: column;
   justify-content: center;
   padding: 15px;
-  background: var(--zen-colors-tertiary);
+  background: var(--zen-panel-raised-background);
   border-radius: 10px;
   margin-bottom: 10px;
 }
