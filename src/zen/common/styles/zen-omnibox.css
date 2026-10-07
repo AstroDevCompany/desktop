@@ -274,27 +274,59 @@
     margin-inline-end: 0;
   }
 
+  /* Frosted glass stays light in dark mode, so the text has to be dark too. */
+  @media not (prefers-reduced-transparency: reduce) {
+    :root:not([zen-no-acrylic="true"]) & {
+      color-scheme: light;
+      --zen-frosted-text: rgb(28 28 30);
+      --toolbox-textcolor: var(--zen-frosted-text) !important;
+      --toolbar-field-color: var(--zen-frosted-text) !important;
+      --toolbar-field-focus-color: var(--zen-frosted-text) !important;
+      --toolbar-field-text-color: var(--zen-frosted-text) !important;
+      --toolbar-field-text-color-focus: var(--zen-frosted-text) !important;
+      --urlbarview-text-color-action: rgb(28 28 30 / 70%) !important;
+      --urlbarview-text-color-secondary: rgb(28 28 30 / 65%) !important;
+      --urlbarview-text-color-selected: var(--zen-frosted-text) !important;
+      --urlbarview-background-color-selected: rgb(0 0 0 / 9%) !important;
+      --urlbar-box-text-color: var(--zen-frosted-text) !important;
+      --text-color-deemphasized: rgb(28 28 30 / 60%) !important;
+      --input-color: var(--zen-frosted-text);
+      --urlbarview-separator-color: rgb(0 0 0 / 10%);
+      --urlbarview-background-color-hover: rgb(0 0 0 / 7%);
+      --toolbarbutton-icon-fill: var(--zen-frosted-text);
+      color: var(--zen-frosted-text) !important;
+
+      & .urlbarView-row:not([selected]),
+      & .urlbarView-title,
+      & .urlbar-input {
+        color: var(--zen-frosted-text) !important;
+      }
+
+      & .urlbarView-url,
+      & .urlbarView-title-separator::before,
+      & .urlbarView-action {
+        color: rgb(28 28 30 / 65%) !important;
+      }
+    }
+  }
+
   & .urlbar-background {
     --zen-urlbar-background-base: light-dark(rgb(255, 255, 255), rgb(24 24 24));
-    /* stylelint-disable-next-line media-query-no-invalid */
-    @media -moz-pref("zen.theme.acrylic-urlbar") and (not (prefers-reduced-transparency: reduce)) {
-      :root:not([zen-no-acrylic="true"]) &:not(:-moz-window-inactive) {
-        --zen-urlbar-background-transparent: light-dark(
-          rgba(255, 255, 255, .93),
-          rgba(20, 20, 20, .92)
-        );
+    @media not (prefers-reduced-transparency: reduce) {
+      :root:not([zen-no-acrylic="true"]) & {
+        --zen-urlbar-background-transparent: rgb(255 255 255 / 55%);
       }
     }
     background-color: var(--zen-urlbar-background-transparent, var(--zen-urlbar-background-base)) !important;
-    box-shadow: 0 30px 140px -15px light-dark(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)) !important;
+    box-shadow: 0 30px 140px -15px rgba(0, 0, 0, 0.45) !important;
     backdrop-filter: none !important;
     outline: 0.5px solid light-dark(rgba(0, 0, 0, 0.2), rgb(75, 75, 75)) !important;
     outline-offset: var(--zen-urlbar-outline-offset) !important;
 
-    /* stylelint-disable-next-line media-query-no-invalid */
-    @media -moz-pref("zen.theme.acrylic-urlbar") and (not (prefers-reduced-transparency: reduce))  {
+    @media not (prefers-reduced-transparency: reduce) {
       :root:not([zen-no-acrylic="true"]) & {
-        backdrop-filter: var(--zen-backdrop-underlay) blur(40px) !important;
+        outline: 1px solid rgb(255 255 255 / 55%) !important;
+        backdrop-filter: blur(40px) saturate(1.8) !important;
       }
     }
   }
