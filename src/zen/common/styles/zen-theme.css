@@ -8,13 +8,13 @@
 :root {
   /* Default values */
   --zen-border-radius: 7px;
-  --zen-primary-color: AccentColor;
+  --zen-primary-color: #14b8a6;
 
   --zen-background-opacity: 1;
 
   /* Branding */
-  --zen-branding-dark: #101010;
-  --zen-branding-paper: #e2e2e2;
+  --zen-branding-dark: #0c1f1c;
+  --zen-branding-paper: #e7f6f1;
 
   --zen-branding-bg: light-dark(var(--zen-branding-paper), var(--zen-branding-dark));
   --zen-branding-bg-reverse: light-dark(var(--zen-branding-dark), var(--zen-branding-paper));
@@ -206,7 +206,12 @@
   --zen-hidden-toolbar-transition: var(--zen-hidden-toolbar-transition-duration) ease-in-out;
 
   /* XUL */
-  --zen-main-browser-background: light-dark(rgb(235, 235, 235), #1b1b1b);
+  --zen-main-browser-background: linear-gradient(
+    -30deg,
+    #0f766e 0%,
+    #2dd4bf 52%,
+    #d1fae5 100%
+  );
   --zen-main-browser-background-toolbar: var(--zen-main-browser-background);
 
   --browser-area-z-index-toolbox: 2 !important;

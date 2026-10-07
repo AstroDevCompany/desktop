@@ -66,6 +66,27 @@ ChromeUtils.defineLazyGetter(lazy, "toolbarBackgroundElement", () => {
 });
 
 const EXPLICIT_LIGHTNESS_TYPE = "explicit-lightness";
+
+const DEFAULT_MINT_COLORS = [
+  {
+    c: [15, 118, 110],
+    isCustom: false,
+    isPrimary: true,
+    algorithm: "analogous",
+    lightness: "32",
+    position: { x: 48, y: 210 },
+    type: EXPLICIT_LIGHTNESS_TYPE,
+  },
+  {
+    c: [153, 246, 228],
+    isCustom: false,
+    isPrimary: false,
+    algorithm: "analogous",
+    lightness: "78",
+    position: { x: 250, y: 70 },
+    type: EXPLICIT_LIGHTNESS_TYPE,
+  },
+];
 const EXPLICIT_BLACKWHITE_TYPE = "explicit-black-white";
 
 /**
@@ -1342,13 +1363,10 @@ export class nsZenThemePicker extends nsZenMultiWindowFeature {
 
     const rotation = -30; // TODO: Detect rotation based on the accent color
     if (themedColors.length === 0) {
-      const getBrowserBg = () => {
-        if (this.canBeTransparent) {
-          return this.isDarkMode ? "rgba(0, 0, 0, 0.4)" : "transparent";
-        }
-        return this.isDarkMode ? "#131313" : "#e9e9e9";
-      };
-      return forToolbar ? this.getToolbarModifiedBase() : getBrowserBg();
+      const mint = this.isDarkMode
+        ? ["#042f2e", "#0f766e", "#5eead4"]
+        : ["#0f766e", "#2dd4bf", "#d1fae5"];
+      return `linear-gradient(-30deg, ${mint[0]} 0%, ${mint[1]} 52%, ${mint[2]} 100%)`;
     } else if (themedColors.length === 1) {
       return this.#getSingleRGBColor(themedColors[0], forToolbar);
     }
@@ -1433,10 +1451,18 @@ export class nsZenThemePicker extends nsZenMultiWindowFeature {
     return darkContrast > lightContrast;
   }
 
-  static getTheme(colors = [], opacity = 0.5, texture = 0) {
+  static getTheme(colors = undefined, opacity = 0.5, texture = 0) {
+    const resolved =
+      colors === undefined
+        ? DEFAULT_MINT_COLORS.map(color => ({
+            ...color,
+            c: [...color.c],
+            position: { ...color.position },
+          }))
+        : colors;
     return {
       type: "gradient",
-      gradientColors: colors ? colors.filter(color => color) : [], // remove undefined
+      gradientColors: resolved ? resolved.filter(color => color) : [], // remove undefined
       opacity,
       texture,
     };

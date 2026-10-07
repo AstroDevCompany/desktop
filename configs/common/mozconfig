@@ -4,12 +4,12 @@
 
 # Browser branding
 ac_add_options --with-app-name=${binName}
-ac_add_options --with-app-basename=Zen
+ac_add_options --with-app-basename=Peppermint
 
 # Localization (Must be an absolute path)
 ac_add_options --with-l10n-base="${topsrcdir}/browser/locales"
 
-export MOZ_APP_BASENAME=Zen
+export MOZ_APP_BASENAME=Peppermint
 export MOZ_BRANDING_DIRECTORY=${brandingDir}
 export MOZ_OFFICIAL_BRANDING_DIRECTORY=${brandingDir}
 

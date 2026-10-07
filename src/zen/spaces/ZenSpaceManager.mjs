@@ -2684,7 +2684,7 @@ class nsZenWorkspaces {
       uuid: gZenUIManager.generateUuidv4(),
       icon,
       name,
-      theme: nsZenThemePicker.getTheme([]),
+      theme: nsZenThemePicker.getTheme(),
       containerTabId,
     };
     return workspace;

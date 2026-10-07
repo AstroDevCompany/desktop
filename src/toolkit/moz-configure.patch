@@ -6,7 +6,7 @@ index 75e99bbd2490b9014be6f4e956546d4507e751df..fbe16d282113175f067d739e1284b254
  
  project_flag(
      env="MOZ_APP_VENDOR",
-+    default="Zen Team",
++    default="MintFlow Technologies",
      nargs=1,
      help='Used for application.ini\'s "Vendor" field, which also impacts profile location and user-visible fields',
  )
