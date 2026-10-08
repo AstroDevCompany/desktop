@@ -1,0 +1,12 @@
+diff --git a/browser/locales/en-US/browser/appmenu.ftl b/browser/locales/en-US/browser/appmenu.ftl
+--- a/browser/locales/en-US/browser/appmenu.ftl
++++ b/browser/locales/en-US/browser/appmenu.ftl
+@@ -34,7 +34,7 @@
+ appmenuitem-new-window =
+     .label = New Window
+ appmenuitem-new-private-window =
+-    .label = New Private Window
++    .label = New Ghost Window
+ appmenuitem-history =
+   .label = History
+ appmenuitem-tab-groups =

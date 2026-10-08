@@ -1,0 +1,92 @@
+diff --git a/browser/locales/en-US/browser/preferences/preferences.ftl b/browser/locales/en-US/browser/preferences/preferences.ftl
+--- a/browser/locales/en-US/browser/preferences/preferences.ftl
++++ b/browser/locales/en-US/browser/preferences/preferences.ftl
+@@ -618,7 +618,7 @@
+     .label = Ask where to save files before downloading
+     .accesskey = A
+ download-private-browsing-delete2 =
+-    .label = Delete private window downloads on close
++    .label = Delete ghost window downloads on close
+     .accesskey = D
+ 
+ applications-header = Applications
+@@ -1130,11 +1130,11 @@
+     .label = Show search terms in the address bar on results pages
+ 
+ search-separate-default-engine-2 =
+-    .label = Use a different default search engine in private windows
++    .label = Use a different default search engine in ghost windows
+     .accesskey = U
+ 
+ search-separate-default-engine-dropdown =
+-    .aria-label = Default search engine in private windows
++    .aria-label = Default search engine in ghost windows
+ 
+ search-suggestions-header-2 =
+     .label = Search engine suggestions
+@@ -1156,7 +1156,7 @@
+     .label = Show search suggestions before browsing history in address bar results
+ 
+ search-show-suggestions-private-windows-2 =
+-    .label = Search suggestions in private windows
++    .label = Search suggestions in ghost windows
+ 
+ search-suggestions-cant-show-2 =
+     .message = Search suggestions will not be shown in location bar results because you have configured { -brand-short-name } to never remember history.
+@@ -1831,7 +1831,7 @@
+     .label = Remember history
+ history-remember-option-never2 =
+     .label = Never remember history
+-    .description = Every window acts like a private window. When on, extensions need to be allowed.
++    .description = Every window acts like a ghost window. When on, extensions need to be allowed.
+ history-remember-option-custom2 =
+     .label = Customize history
+ 
+@@ -1841,14 +1841,14 @@
+ 
+ history-dontremember-description4 =
+     .aria-label = { history-group.label }
+-    .description = { -brand-short-name } will use the same settings as private browsing, and will not remember any history as you browse the Web.
++    .description = { -brand-short-name } will use the same settings as Ghost mode, and will not remember any history as you browse the Web.
+ 
+ history-custom-description4 =
+     .aria-label = { history-group.label }
+     .description = { -brand-short-name } will use custom settings for your browsing, download, form and search history.
+ 
+ history-private-browsing-permanent =
+-    .label = Always use private browsing mode
++    .label = Always use Ghost mode
+     .accesskey = p
+ 
+ history-remember-browser-option =
+@@ -1993,10 +1993,10 @@
+ content-blocking-etp-custom-desc = Choose which trackers and scripts to block.
+ content-blocking-etp-blocking-desc = { -brand-short-name } blocks the following:
+ 
+-content-blocking-private-windows = Tracking content in Private Windows
++content-blocking-private-windows = Tracking content in Ghost Windows
+ content-blocking-cross-site-cookies-in-all-windows2 = Cross-site cookies in all windows
+ content-blocking-cross-site-tracking-cookies = Cross-site tracking cookies
+-content-blocking-all-cross-site-cookies-private-windows = Cross-site cookies in Private Windows
++content-blocking-all-cross-site-cookies-private-windows = Cross-site cookies in Ghost Windows
+ content-blocking-isolate-cross-site-cookies = Isolate cross-site cookies
+ content-blocking-social-media-trackers = Social media trackers
+ content-blocking-all-cookies = All cookies
+@@ -2050,7 +2050,7 @@
+   .label = In all windows
+   .accesskey = A
+ content-blocking-option-private =
+-  .label = Only in private windows
++  .label = Only in ghost windows
+   .accesskey = p
+ 
+ content-blocking-cookies-label =
+@@ -2283,7 +2283,7 @@
+     .label = Enable HTTPS-Only Mode in all windows
+ 
+ httpsonly-radio-enabled-pbm =
+-    .label = Enable HTTPS-Only Mode in private windows only
++    .label = Enable HTTPS-Only Mode in ghost windows only
+ 
+ httpsonly-radio-disabled3 =
+     .label = Don’t enable HTTPS-Only Mode

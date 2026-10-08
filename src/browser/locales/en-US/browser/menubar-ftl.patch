@@ -1,0 +1,12 @@
+diff --git a/browser/locales/en-US/browser/menubar.ftl b/browser/locales/en-US/browser/menubar.ftl
+--- a/browser/locales/en-US/browser/menubar.ftl
++++ b/browser/locales/en-US/browser/menubar.ftl
+@@ -69,7 +69,7 @@
+     .label = New Window
+     .accesskey = N
+ menu-file-new-private-window =
+-    .label = New Private Window
++    .label = New Ghost Window
+     .accesskey = W
+ # "Open Location" is only displayed on macOS, and only on windows
+ # that aren't main browser windows, or when there are no windows

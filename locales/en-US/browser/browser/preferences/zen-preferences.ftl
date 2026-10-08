@@ -302,7 +302,7 @@ zen-full-zoom-enlarge-shortcut-alt = Zoom In (Alt)
 zen-full-zoom-enlarge-shortcut-alt2 = Zoom In (Alt 2)
 
 zen-bidi-switch-direction-shortcut = Switch Text Direction
-zen-private-browsing-shortcut = Private Browsing
+zen-private-browsing-shortcut = Ghost Mode
 zen-screenshot-shortcut = Take Screenshot
 zen-key-sanitize = Clear Browsing Data
 zen-quit-app-shortcut = Quit Application

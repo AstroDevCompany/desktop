@@ -1,0 +1,21 @@
+diff --git a/browser/locales/en-US/browser/protections.ftl b/browser/locales/en-US/browser/protections.ftl
+--- a/browser/locales/en-US/browser/protections.ftl
++++ b/browser/locales/en-US/browser/protections.ftl
+@@ -21,7 +21,7 @@
+   }
+ 
+ # Text displayed instead of the graph when in Private Mode
+-graph-private-window = { -brand-short-name } continues to  block trackers in Private Windows, but does not keep a record of what was blocked.
++graph-private-window = { -brand-short-name } continues to  block trackers in Ghost Windows, but does not keep a record of what was blocked.
+ # Weekly summary of the graph when the graph is empty in Private Mode
+ graph-week-summary-private-window = Trackers { -brand-short-name } blocked this week
+ 
+@@ -272,7 +272,7 @@
+ privacy-metrics-empty = No trackers blocked this week. { -brand-short-name } protects you from the following threats as you browse.
+ privacy-metrics-loading = Loading protection stats…
+ privacy-metrics-error = Unable to load protection stats.
+-privacy-metrics-private-window = { -brand-short-name } continues to block trackers in Private Windows, but does not keep a record of what was blocked.
++privacy-metrics-private-window = { -brand-short-name } continues to block trackers in Ghost Windows, but does not keep a record of what was blocked.
+ 
+ ## VPN promo card and banner
+ 

@@ -2675,7 +2675,7 @@ class nsZenWorkspaces {
       let label =
         ContextualIdentityService.getUserContextLabel(containerTabId) ||
         "Default";
-      name = this.isPrivateWindow ? "Incognito" : label;
+      name = this.isPrivateWindow ? "Ghost Mode" : label;
       if (this.isPrivateWindow) {
         icon = "chrome://browser/skin/zen-icons/private-window-small.svg";
       }

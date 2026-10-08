@@ -1,0 +1,10 @@
+diff --git a/browser/locales/en-US/browser/linuxDesktopEntry.ftl b/browser/locales/en-US/browser/linuxDesktopEntry.ftl
+--- a/browser/locales/en-US/browser/linuxDesktopEntry.ftl
++++ b/browser/locales/en-US/browser/linuxDesktopEntry.ftl
+@@ -22,5 +22,5 @@
+ ## taskbar icon, possibly other places depending on the environment.
+ 
+ desktop-action-new-window-name = New Window
+-desktop-action-new-private-window-name = New Private Window
++desktop-action-new-private-window-name = New Ghost Window
+ desktop-action-open-profile-manager = Open Profile Manager

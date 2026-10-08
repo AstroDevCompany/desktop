@@ -1,0 +1,12 @@
+diff --git a/browser/locales/en-US/browser/tabbrowser.ftl b/browser/locales/en-US/browser/tabbrowser.ftl
+--- a/browser/locales/en-US/browser/tabbrowser.ftl
++++ b/browser/locales/en-US/browser/tabbrowser.ftl
+@@ -3,7 +3,7 @@
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+ tabbrowser-empty-tab-title = New Tab
+-tabbrowser-empty-private-tab-title = New Private Tab
++tabbrowser-empty-private-tab-title = New Ghost Tab
+ 
+ tabbrowser-menuitem-close-tab =
+     .label = Close Tab

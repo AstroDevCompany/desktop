@@ -1,0 +1,21 @@
+diff --git a/browser/locales/en-US/browser/policies/policies-descriptions.ftl b/browser/locales/en-US/browser/policies/policies-descriptions.ftl
+--- a/browser/locales/en-US/browser/policies/policies-descriptions.ftl
++++ b/browser/locales/en-US/browser/policies/policies-descriptions.ftl
+@@ -101,7 +101,7 @@
+ 
+ policy-DisablePasswordReveal = Do not allow passwords to be revealed in saved logins.
+ 
+-policy-DisablePrivateBrowsing = Disable Private Browsing.
++policy-DisablePrivateBrowsing = Disable Ghost Mode.
+ 
+ policy-DisableProfileImport = Disable the menu command to Import data from another browser.
+ 
+@@ -228,7 +228,7 @@
+ 
+ policy-Preferences = Set and lock the value for a subset of preferences.
+ 
+-policy-PrivateBrowsingModeAvailability = Set availability of private browsing mode.
++policy-PrivateBrowsingModeAvailability = Set availability of Ghost mode.
+ 
+ policy-PromptForDownloadLocation = Ask where to save files when downloading.
+ 

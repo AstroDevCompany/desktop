@@ -1,0 +1,12 @@
+diff --git a/browser/locales/en-US/browser/sidebar.ftl b/browser/locales/en-US/browser/sidebar.ftl
+--- a/browser/locales/en-US/browser/sidebar.ftl
++++ b/browser/locales/en-US/browser/sidebar.ftl
+@@ -109,7 +109,7 @@
+ sidebar-context-menu-open-in-window =
+   .label = Open in New Window
+ sidebar-context-menu-open-in-private-window =
+-  .label = Open in New Private Window
++  .label = Open in New Ghost Window
+ sidebar-context-menu-forget-site =
+   .label = Clear All Data for Website…
+ sidebar-context-menu-bookmark-tab =

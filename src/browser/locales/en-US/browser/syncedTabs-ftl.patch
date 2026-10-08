@@ -1,0 +1,12 @@
+diff --git a/browser/locales/en-US/browser/syncedTabs.ftl b/browser/locales/en-US/browser/syncedTabs.ftl
+--- a/browser/locales/en-US/browser/syncedTabs.ftl
++++ b/browser/locales/en-US/browser/syncedTabs.ftl
+@@ -32,7 +32,7 @@
+     .label = Open in New Window
+     .accesskey = N
+ synced-tabs-context-open-in-private-window =
+-    .label = Open in New Private Window
++    .label = Open in New Ghost Window
+     .accesskey = P
+ 
+ ##

@@ -1,0 +1,17 @@
+diff --git a/browser/locales/en-US/browser/downloads.ftl b/browser/locales/en-US/browser/downloads.ftl
+--- a/browser/locales/en-US/browser/downloads.ftl
++++ b/browser/locales/en-US/browser/downloads.ftl
+@@ -194,11 +194,11 @@
+ downloads-details =
+     .title = Download details
+ 
+-## These strings are displayed in the private browsing view of the downloads panel
++## These strings are displayed in the Ghost mode view of the downloads panel
+ 
+ downloads-private-browsing-details =
+   .title = Files stay on your device
+-downloads-private-browsing-message = Anyone using this device can see downloads, even when you close all private windows.
++downloads-private-browsing-message = Anyone using this device can see downloads, even when you close all ghost windows.
+ downloads-private-browsing-delete-button =
+   .label = Delete files automatically
+   .accesskey = D

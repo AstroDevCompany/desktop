@@ -1,0 +1,12 @@
+diff --git a/browser/locales/en-US/browser/unifiedExtensions.ftl b/browser/locales/en-US/browser/unifiedExtensions.ftl
+--- a/browser/locales/en-US/browser/unifiedExtensions.ftl
++++ b/browser/locales/en-US/browser/unifiedExtensions.ftl
+@@ -11,7 +11,7 @@
+     .label = Manage extensions
+ unified-extensions-discover-extensions =
+     .label = Discover extensions
+-unified-extensions-empty-reason-private-browsing-not-allowed = You have extensions installed, but not enabled in private windows
++unified-extensions-empty-reason-private-browsing-not-allowed = You have extensions installed, but not enabled in ghost windows
+ unified-extensions-empty-reason-extension-not-enabled = You have extensions installed, but not enabled
+ # In this headline, "go a long way", means that even a small number of extensions can have a big impact.
+ unified-extensions-empty-reason-zero-extensions-onboarding2 = A few extensions go a long way

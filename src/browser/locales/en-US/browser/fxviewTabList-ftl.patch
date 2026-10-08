@@ -1,0 +1,12 @@
+diff --git a/browser/locales/en-US/browser/fxviewTabList.ftl b/browser/locales/en-US/browser/fxviewTabList.ftl
+--- a/browser/locales/en-US/browser/fxviewTabList.ftl
++++ b/browser/locales/en-US/browser/fxviewTabList.ftl
+@@ -37,7 +37,7 @@
+     .accesskey = F
+ fxviewtabrow-open-in-window = Open in New Window
+     .accesskey = N
+-fxviewtabrow-open-in-private-window = Open in New Private Window
++fxviewtabrow-open-in-private-window = Open in New Ghost Window
+     .accesskey = P
+ # “Bookmark” is a verb, as in "Bookmark this page" (add to bookmarks).
+ fxviewtabrow-add-bookmark = Bookmark…

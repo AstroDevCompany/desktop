@@ -1,0 +1,16 @@
+diff --git a/browser/locales/en-US/browser/aiWindow.ftl b/browser/locales/en-US/browser/aiWindow.ftl
+--- a/browser/locales/en-US/browser/aiWindow.ftl
++++ b/browser/locales/en-US/browser/aiWindow.ftl
+@@ -54,10 +54,10 @@
+     .value = Ask as you browse
+ 
+ ai-window-toggleview-switch-private =
+-    .label = Private Window
++    .label = Ghost Window
+ 
+ ai-window-toggleview-open-private =
+-    .label = Open New Private Window
++    .label = Open New Ghost Window
+ 
+ ai-window-toggleview-status-label-active = { -smart-window-brand-name }
+ 

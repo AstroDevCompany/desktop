@@ -1,0 +1,12 @@
+diff --git a/browser/locales/en-US/browser/browserContext.ftl b/browser/locales/en-US/browser/browserContext.ftl
+--- a/browser/locales/en-US/browser/browserContext.ftl
++++ b/browser/locales/en-US/browser/browserContext.ftl
+@@ -154,7 +154,7 @@
+     .accesskey = d
+ 
+ main-context-menu-open-link-new-private-window =
+-    .label = Open Link in New Private Window
++    .label = Open Link in New Ghost Window
+     .accesskey = P
+ 
+ main-context-menu-bookmark-link-2 =
