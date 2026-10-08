@@ -1,35 +1,17 @@
 
 #zen-ghost-mode-button {
-  position: relative;
+  list-style-image: url("chrome://browser/skin/zen-icons/ghost/ghost.png");
 
-  --zen-ghost-sprite-size: 18px;
-
-  & .zen-ghost-sprite {
-    position: absolute;
-    width: var(--zen-ghost-sprite-size);
-    height: var(--zen-ghost-sprite-size);
-    overflow: clip;
-    pointer-events: none;
-    scale: 1.08;
+  & > .toolbarbutton-icon {
+    transition: scale 0.15s ease;
+    scale: 1;
   }
 
-  & .zen-ghost-sprite::before {
-    content: "";
-    display: block;
-    flex: none;
-    width: calc(36 * 100%);
-    height: 100%;
-    background-image: url("chrome://browser/skin/zen-icons/ghost/ghost-sprite.svg");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+  &:hover > .toolbarbutton-icon {
+    scale: 1.14;
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    & .zen-ghost-sprite::before {
-      animation: zen-library-sprite-unhover 0.3s steps(36, jump-none);
-    }
-    &:hover .zen-ghost-sprite::before {
-      animation: zen-library-sprite-hover 0.35s steps(36, jump-none) forwards;
-    }
+  &:active > .toolbarbutton-icon {
+    scale: 1.06;
   }
 }

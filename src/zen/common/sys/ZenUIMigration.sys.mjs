@@ -92,10 +92,6 @@ class nsZenUIMigration {
   }
 
   #migrateGhostModeButton() {
-    const donePref = "zen.ghost-mode.migrated-sidebar-button";
-    if (Services.prefs.getBoolPref(donePref, false)) {
-      return;
-    }
     const footButtons = "zen-sidebar-foot-buttons";
     const listener = {
       onAreaNodeRegistered: area => {
@@ -103,7 +99,6 @@ class nsZenUIMigration {
           return;
         }
         lazy.CustomizableUI.removeListener(listener);
-        Services.prefs.setBoolPref(donePref, true);
         if (lazy.CustomizableUI.getPlacementOfWidget("zen-ghost-mode-button")) {
           return;
         }
