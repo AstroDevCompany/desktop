@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 - name: zen.workspaces.continue-where-left-off
-  value: false
+  value: true
 
 - name: zen.workspaces.hide-default-container-indicator
   value: true

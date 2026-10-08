@@ -66,6 +66,13 @@
 - name: browser.tabs.closeWindowWithLastTab
   value: false
 
+# Switch to a new tab as soon as a link or media opens in it.
+- name: browser.tabs.loadInBackground
+  value: false
+
+- name: browser.warnOnQuitShortcut
+  value: false
+
 - name: browser.tabs.dragDrop.multiselectStacking
   value: false
   locked: true

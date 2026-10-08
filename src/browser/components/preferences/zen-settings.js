@@ -582,7 +582,7 @@ Preferences.addAll([
   {
     id: "zen.workspaces.continue-where-left-off",
     type: "bool",
-    default: false,
+    default: true,
   },
   {
     id: "zen.tabs.ctrl-tab.ignore-essential-tabs",
