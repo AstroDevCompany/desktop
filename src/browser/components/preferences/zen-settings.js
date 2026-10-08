@@ -77,8 +77,30 @@ var gZenLooksAndFeel = {
   },
 };
 
+var gZenToolbarUrlbarSettings = {
+  init() {},
+};
+
 var gZenWorkspacesSettings = {
   init() {
+    const syncLink = document.getElementById("zenSpacesOpenSyncSettings");
+    if (syncLink) {
+      const openSyncSettings = event => {
+        event.preventDefault();
+        for (const id of ["category-sync", "category-account"]) {
+          const navButton = document.getElementById(id);
+          if (navButton && !navButton.hidden) {
+            navButton.click();
+            return;
+          }
+        }
+      };
+      syncLink.addEventListener("click", openSyncSettings);
+      window.addEventListener("unload", () => {
+        syncLink.removeEventListener("click", openSyncSettings);
+      });
+    }
+
     var tabsUnloaderPrefListener = {
       async observe() {
         let buttonIndex = await confirmRestartPrompt(true, 1, true, true);

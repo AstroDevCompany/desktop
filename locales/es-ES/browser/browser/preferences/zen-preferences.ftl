@@ -2,9 +2,36 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-pane-zen-looks-title = Apariencia
-category-zen-looks = 
-    .tooltiptext = { pane-zen-looks-title }
+pane-zen-sidebar-layout-title = Sidebar & layout
+category-zen-sidebar-layout =
+    .tooltiptext = { pane-zen-sidebar-layout-title }
+
+pane-zen-toolbar-urlbar-title = Toolbar & address bar
+category-zen-toolbar-urlbar =
+    .tooltiptext = { pane-zen-toolbar-urlbar-title }
+
+pane-zen-spaces-tabs-title = Spaces & tabs
+category-zen-spaces-tabs =
+    .tooltiptext = { pane-zen-spaces-tabs-title }
+
+pane-zen-shortcuts-title = Shortcuts
+category-zen-shortcuts =
+    .tooltiptext = { pane-zen-shortcuts-title }
+
+zen-sidebar-layout-section-title = Sidebar & layout
+zen-tab-list-section-title = Tab list
+zen-compact-toolbar-section-title = Compact toolbar
+zen-address-bar-section-title = Address bar
+zen-tab-switching-section-title = Tab switching
+zen-tab-switching-header = Tab switching behavior
+zen-tab-switching-description = Control how tabs are selected when you close tabs or cycle with Ctrl+Tab.
+zen-pinned-essentials-section-title = Pinned tabs & essentials
+zen-glance-section-title = Link preview
+
+zen-settings-spaces-sync-footer =
+    Workspace sync is managed in your Mozilla account settings.
+    <a data-l10n-name="sync-link">Open Sync settings</a>
+
 zen-warning-language = Cambiar el idioma por defecto podría facilitar el seguimiento de los sitios web.
 zen-vertical-tabs-layout-header = Diseño del navegador
 zen-vertical-tabs-layout-description = Elija el diseño que mejor se adapte a usted
@@ -42,9 +69,6 @@ zen-look-and-feel-window-drag-header = Arrastrar ventana
 zen-look-and-feel-window-drag-description = Mueva la ventana arrastrando espacio vacío en la parte superior de los sitios web, al igual que la barra de título.
 zen-window-drag-enabled = 
     .label = Permitir arrastrar la ventana desde páginas web
-pane-zen-tabs-title = Administración de pestañas
-category-zen-workspaces = 
-    .tooltiptext = { pane-zen-tabs-title }
 pane-settings-workspaces-title = Espacios de trabajo
 zen-tabs-select-recently-used-on-close = 
     .label = Al cerrar una pestaña, cambiar a la pestaña usada más recientemente en vez de a la siguiente pestaña

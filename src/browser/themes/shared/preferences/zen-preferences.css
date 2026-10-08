@@ -81,8 +81,16 @@ groupbox h2 {
   margin-bottom: 15px;
 }
 
-#category-zen-looks > .category-icon {
+#category-zen-sidebar-layout > .category-icon {
   list-style-image: url("chrome://browser/skin/customize.svg");
+}
+
+#category-zen-toolbar-urlbar > .category-icon {
+  list-style-image: url("chrome://browser/skin/preferences/category-search.svg");
+}
+
+#category-zen-spaces-tabs > .category-icon {
+  list-style-image: url("chrome://browser/skin/window.svg");
 }
 
 #zenLooksAndFeelGroup > html|div:last-of-type {
@@ -132,12 +140,6 @@ groupbox h2 {
   }
 }
 
-/* Workspace */
-
-#category-zen-tabs-management > .category-icon {
-  list-style-image: url("chrome://browser/skin/window.svg");
-}
-
 #zenTabsUnloadDelayContainer {
   display: flex;
   align-items: center;
@@ -150,7 +152,7 @@ groupbox h2 {
 /* CKS */
 
 #category-zen-CKS > .category-icon {
-  list-style-image: url("chrome://browser/skin/quickactions.svg");
+  list-style-image: url("chrome://browser/skin/zen-icons/brackets-curly.svg");
 }
 
 /* Marketplace was removed; hide a leftover nav entry if chrome is stale. */

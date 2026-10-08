@@ -1,0 +1,92 @@
+diff --git a/browser/components/sessionstore/SessionWriter.sys.mjs b/browser/components/sessionstore/SessionWriter.sys.mjs
+index 0000000..1111111 100644
+--- a/browser/components/sessionstore/SessionWriter.sys.mjs
++++ b/browser/components/sessionstore/SessionWriter.sys.mjs
+@@ -83,6 +83,10 @@
+       unlock();
+     }
+   },
++
++  get _jsonLengthHint() {
++    return SessionWriterInternal._lastJsonLength;
++  },
+ };
+ 
+ const SessionWriterInternal = {
+@@ -107,6 +111,10 @@
+    */
+   maxUpgradeBackups: null,
+ 
++  // Estimated JSON string length from the previous write, used to pre-size
++  // the serialization buffer and avoid incremental reallocations.
++  _lastJsonLength: 0,
++
+   /**
+    * Initialize (or reinitialize) the writer.
+    *
+@@ -205,16 +213,23 @@
+ 
+       let startWriteMs = Date.now();
+       let fileStat;
++      // Add 5% headroom to the hint so small growth between saves doesn't
++      // cause reallocs. The compressed-size-based estimate already has
++      // sufficient margin from the 4x multiplier.
++      let jsonLengthHint = Math.ceil(this._lastJsonLength * 1.05);
+ 
++      let uncompressedBytes;
++
+       if (options.isFinalWrite) {
+         // We are shutting down. At this stage, we know that
+         // $Paths.clean is either absent or corrupted. If it was
+         // originally present and valid, it has been moved to
+         // $Paths.cleanBackup a long time ago. We can therefore write
+         // with the guarantees that we erase no important data.
+-        await IOUtils.writeJSON(this.Paths.clean, state, {
++        uncompressedBytes = await IOUtils.writeJSON(this.Paths.clean, state, {
+           tmpPath: this.Paths.clean + ".tmp",
+           compress: true,
++          lengthHint: jsonLengthHint,
+         });
+         fileStat = await IOUtils.stat(this.Paths.clean);
+       } else if (this.state == STATE_RECOVERY) {
+@@ -224,25 +239,30 @@
+         // way, $Paths.recovery is good. We can move $Path.backup to
+         // $Path.recoveryBackup without erasing a good file with a bad
+         // file.
+-        await IOUtils.writeJSON(this.Paths.recovery, state, {
++        uncompressedBytes = await IOUtils.writeJSON(this.Paths.recovery, state, {
+           tmpPath: this.Paths.recovery + ".tmp",
+           backupFile: this.Paths.recoveryBackup,
+           compress: true,
++          lengthHint: jsonLengthHint,
+         });
+         fileStat = await IOUtils.stat(this.Paths.recovery);
+       } else {
+         // In other cases, either $Path.recovery is not necessary, or
+         // it doesn't exist or it has been corrupted. Regardless,
+         // don't backup $Path.recovery.
+-        await IOUtils.writeJSON(this.Paths.recovery, state, {
++        uncompressedBytes = await IOUtils.writeJSON(this.Paths.recovery, state, {
+           tmpPath: this.Paths.recovery + ".tmp",
+           compress: true,
++          lengthHint: jsonLengthHint,
+         });
+         fileStat = await IOUtils.stat(this.Paths.recovery);
+       }
+ 
+       telemetry.writeFileMs = Date.now() - startWriteMs;
+       telemetry.fileSizeBytes = fileStat.size;
++      // Use the actual pre-compression size from this write as the hint
++      // for the next write's buffer allocation.
++      this._lastJsonLength = uncompressedBytes.jsonLength;
+       lazy.sessionStoreLogger.debug(
+         `SessionWriter.write wrote ${telemetry.fileSizeBytes} bytes in ${telemetry.writeFileMs}ms`
+       );
+@@ -379,6 +399,7 @@
+     }
+ 
+     this.state = STATE_EMPTY;
++    this._lastJsonLength = 0;
+     if (exn) {
+       throw exn;
+     }

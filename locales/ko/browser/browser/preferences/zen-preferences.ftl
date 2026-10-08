@@ -2,9 +2,36 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-pane-zen-looks-title = 모양
-category-zen-looks = 
-    .tooltiptext = { pane-zen-looks-title }
+pane-zen-sidebar-layout-title = Sidebar & layout
+category-zen-sidebar-layout =
+    .tooltiptext = { pane-zen-sidebar-layout-title }
+
+pane-zen-toolbar-urlbar-title = Toolbar & address bar
+category-zen-toolbar-urlbar =
+    .tooltiptext = { pane-zen-toolbar-urlbar-title }
+
+pane-zen-spaces-tabs-title = Spaces & tabs
+category-zen-spaces-tabs =
+    .tooltiptext = { pane-zen-spaces-tabs-title }
+
+pane-zen-shortcuts-title = Shortcuts
+category-zen-shortcuts =
+    .tooltiptext = { pane-zen-shortcuts-title }
+
+zen-sidebar-layout-section-title = Sidebar & layout
+zen-tab-list-section-title = Tab list
+zen-compact-toolbar-section-title = Compact toolbar
+zen-address-bar-section-title = Address bar
+zen-tab-switching-section-title = Tab switching
+zen-tab-switching-header = Tab switching behavior
+zen-tab-switching-description = Control how tabs are selected when you close tabs or cycle with Ctrl+Tab.
+zen-pinned-essentials-section-title = Pinned tabs & essentials
+zen-glance-section-title = Link preview
+
+zen-settings-spaces-sync-footer =
+    Workspace sync is managed in your Mozilla account settings.
+    <a data-l10n-name="sync-link">Open Sync settings</a>
+
 zen-warning-language = 기본 언어를 변경하면 웹사이트에서 사용자를 추적하기 더 쉬워질 수 있습니다.
 zen-vertical-tabs-layout-header = 브라우저 레이아웃
 zen-vertical-tabs-layout-description = 가장 잘 맞는 레이아웃을 고르세요
@@ -42,9 +69,6 @@ zen-look-and-feel-window-drag-header = 창 드래그
 zen-look-and-feel-window-drag-description = 타이틀바처럼, 웹사이트 위의 빈 공간을 드래그해 창을 움직이세요.
 zen-window-drag-enabled = 
     .label = 웹 페이지에서 창 드래그 허용
-pane-zen-tabs-title = 탭 관리
-category-zen-workspaces = 
-    .tooltiptext = { pane-zen-tabs-title }
 pane-settings-workspaces-title = 워크스페이스
 zen-tabs-select-recently-used-on-close = 
     .label = 탭을 닫을 때 다음 탭 대신 가장 최근에 쓰인 탭으로 변경

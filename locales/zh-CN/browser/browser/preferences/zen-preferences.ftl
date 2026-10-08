@@ -2,9 +2,36 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-pane-zen-looks-title = 界面外观
-category-zen-looks = 
-    .tooltiptext = { pane-zen-looks-title }
+pane-zen-sidebar-layout-title = Sidebar & layout
+category-zen-sidebar-layout =
+    .tooltiptext = { pane-zen-sidebar-layout-title }
+
+pane-zen-toolbar-urlbar-title = Toolbar & address bar
+category-zen-toolbar-urlbar =
+    .tooltiptext = { pane-zen-toolbar-urlbar-title }
+
+pane-zen-spaces-tabs-title = Spaces & tabs
+category-zen-spaces-tabs =
+    .tooltiptext = { pane-zen-spaces-tabs-title }
+
+pane-zen-shortcuts-title = Shortcuts
+category-zen-shortcuts =
+    .tooltiptext = { pane-zen-shortcuts-title }
+
+zen-sidebar-layout-section-title = Sidebar & layout
+zen-tab-list-section-title = Tab list
+zen-compact-toolbar-section-title = Compact toolbar
+zen-address-bar-section-title = Address bar
+zen-tab-switching-section-title = Tab switching
+zen-tab-switching-header = Tab switching behavior
+zen-tab-switching-description = Control how tabs are selected when you close tabs or cycle with Ctrl+Tab.
+zen-pinned-essentials-section-title = Pinned tabs & essentials
+zen-glance-section-title = Link preview
+
+zen-settings-spaces-sync-footer =
+    Workspace sync is managed in your Mozilla account settings.
+    <a data-l10n-name="sync-link">Open Sync settings</a>
+
 zen-warning-language = 更改默认语言可能会让网站更容易追踪您。
 zen-vertical-tabs-layout-header = 浏览器布局
 zen-vertical-tabs-layout-description = 选择最适合您的布局
@@ -42,9 +69,6 @@ zen-look-and-feel-window-drag-header = 窗口拖动
 zen-look-and-feel-window-drag-description = 像拖动标题栏一样，通过拖动网站顶部的空白区域来移动窗口。
 zen-window-drag-enabled = 
     .label = 允许从网页拖动窗口
-pane-zen-tabs-title = 标签页管理
-category-zen-workspaces = 
-    .tooltiptext = { pane-zen-tabs-title }
 pane-settings-workspaces-title = 工作区
 zen-tabs-select-recently-used-on-close = 
     .label = 在关闭一个标签页时，切换到最近使用的标签页，而不是下一个标签页

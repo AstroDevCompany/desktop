@@ -1,5 +1,5 @@
 diff --git a/browser/components/preferences/preferences.js b/browser/components/preferences/preferences.js
-index 94612d8e28af58fcb04914440348b899a0a1e08f..da3b1ffd09745d09589283356d1001dbfb76a468 100644
+index 35e044bd84bb0d2c38cfdc54c7aadfb39f749d38..42c8dbe889dfadd32e7b0be02b57e281c76a0c62 100644
 --- a/browser/components/preferences/preferences.js
 +++ b/browser/components/preferences/preferences.js
 @@ -132,6 +132,7 @@ ChromeUtils.defineLazyGetter(this, "gSubDialog", function () {
@@ -19,7 +19,7 @@ index 94612d8e28af58fcb04914440348b899a0a1e08f..da3b1ffd09745d09589283356d1001db
        "browserLayout",
        "tabs",
        "pageNavigation",
-@@ -518,7 +521,7 @@ function register_module(categoryName, categoryObject) {
+@@ -524,7 +527,7 @@ function register_module(categoryName, categoryObject) {
        }
        this._initted = true;
        let template = document.getElementById("template-" + categoryName);
@@ -28,12 +28,13 @@ index 94612d8e28af58fcb04914440348b899a0a1e08f..da3b1ffd09745d09589283356d1001db
          // Replace the template element with the nodes inside of it.
          template.replaceWith(template.content);
  
-@@ -562,6 +565,9 @@ function init_all() {
+@@ -568,6 +571,10 @@ function init_all() {
    register_module("paneHome", gHomePane);
    register_module("paneSearch", gSearchPane);
    register_module("panePrivacy", gPrivacyPane);
-+  register_module("paneZenLooks", gZenLooksAndFeel);
-+  register_module("paneZenTabManagement", gZenWorkspacesSettings);
++  register_module("paneZenSidebarLayout", gZenLooksAndFeel);
++  register_module("paneZenToolbarUrlbar", gZenToolbarUrlbarSettings);
++  register_module("paneZenSpacesTabs", gZenWorkspacesSettings);
 +  register_module("paneZenCKS", gZenCKSSettings);
  
    // Restore the cached Firefox Labs nav button visibility so it shows

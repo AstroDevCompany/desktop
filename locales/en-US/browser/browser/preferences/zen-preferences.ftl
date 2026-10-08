@@ -2,9 +2,35 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-pane-zen-looks-title = Look and Feel
-category-zen-looks =
-    .tooltiptext = { pane-zen-looks-title }
+pane-zen-sidebar-layout-title = Sidebar & layout
+category-zen-sidebar-layout =
+    .tooltiptext = { pane-zen-sidebar-layout-title }
+
+pane-zen-toolbar-urlbar-title = Toolbar & address bar
+category-zen-toolbar-urlbar =
+    .tooltiptext = { pane-zen-toolbar-urlbar-title }
+
+pane-zen-spaces-tabs-title = Spaces & tabs
+category-zen-spaces-tabs =
+    .tooltiptext = { pane-zen-spaces-tabs-title }
+
+pane-zen-shortcuts-title = Shortcuts
+category-zen-shortcuts =
+    .tooltiptext = { pane-zen-shortcuts-title }
+
+zen-sidebar-layout-section-title = Sidebar & layout
+zen-tab-list-section-title = Tab list
+zen-compact-toolbar-section-title = Compact toolbar
+zen-address-bar-section-title = Address bar
+zen-tab-switching-section-title = Tab switching
+zen-tab-switching-header = Tab switching behavior
+zen-tab-switching-description = Control how tabs are selected when you close tabs or cycle with Ctrl+Tab.
+zen-pinned-essentials-section-title = Pinned tabs & essentials
+zen-glance-section-title = Link preview
+
+zen-settings-spaces-sync-footer =
+    Workspace sync is managed in your Mozilla account settings.
+    <a data-l10n-name="sync-link">Open Sync settings</a>
 
 zen-warning-language = Changing the default language could make it easier for Websites to track you.
 
@@ -37,7 +63,7 @@ zen-library-default-section-media =
     .label = Media
 
 zen-glance-title = Glance
-zen-glance-header = General settings for glance
+zen-glance-header = Glance
 zen-glance-description = Get a quick overview of your links without opening them in a new tab
 zen-glance-trigger-label = Trigger method
 zen-glance-enabled =
@@ -68,10 +94,6 @@ zen-look-and-feel-window-drag-description = Move the window by dragging empty sp
 zen-window-drag-enabled =
     .label = Allow dragging the window from web pages
 
-pane-zen-tabs-title = Tab Management
-category-zen-workspaces =
-    .tooltiptext = { pane-zen-tabs-title }
-pane-settings-workspaces-title = Workspaces
 
 zen-tabs-select-recently-used-on-close =
     .label = When closing a tab, switch to the most recently used tab instead of the next tab
@@ -102,8 +124,7 @@ zen-look-and-feel-compact-toolbar-themed =
 zen-workspace-continue-where-left-off =
     .label = Continue where you left off
 
-pane-zen-pinned-tab-manager-title = Pinned Tabs
-zen-pinned-tab-manager-header = General settings for pinned tabs
+zen-pinned-tab-manager-header = Pinned tabs
 zen-pinned-tab-manager-description = Manage additional behavior of pinned tabs
 zen-pinned-tab-manager-restore-pinned-tabs-to-pinned-url =
     .label = Restore pinned tabs to their originally pinned URL on startup
@@ -124,7 +145,7 @@ zen-pinned-tab-manager-close-close-shortcut-option =
     .label = Close tab
 
 pane-zen-workspaces-header = Workspaces
-zen-settings-workspaces-header = General settings for workspaces
+zen-settings-workspaces-header = Spaces
 zen-settings-workspaces-description = With workspaces, you can have multiple browsing sessions at once!
 zen-settings-workspaces-enabled =
     .label = Enable Workspaces
@@ -134,10 +155,8 @@ zen-settings-workspaces-hide-default-container-indicator =
 zen-key-unsaved = Unsaved shortcut! Please save it by clicking the "Escape" key after retyping it.
 zen-key-conflict = Conflicts with { $group } -> { $shortcut }
 
-pane-zen-theme-title = Theme Settings
-
-zen-vertical-tabs-title = Sidebar and tabs layout
-zen-vertical-tabs-header = Vertical Tabs
+zen-vertical-tabs-title = Tab list
+zen-vertical-tabs-header = Tab list options
 zen-vertical-tabs-description = Manage your tabs in a vertical layout
 zen-vertical-tabs-show-expand-button =
     .label = Show Expand Button
@@ -167,8 +186,8 @@ zen-compact-mode-styles-left = Hide Tab bar
 zen-compact-mode-styles-top = Hide Top bar
 zen-compact-mode-styles-both = Hide Both
 
-zen-urlbar-title = Peppermint URL Bar
-zen-urlbar-header = General settings for the URL bar
+zen-urlbar-title = Address bar
+zen-urlbar-header = Address bar
 zen-urlbar-description = Customize the URL bar to your liking
 
 zen-urlbar-behavior-label = Behavior
@@ -179,10 +198,10 @@ zen-urlbar-behavior-floating-on-type =
 zen-urlbar-behavior-float =
     .label = Always floating
 
-pane-zen-CKS-title = Keyboard Shortcuts
+pane-zen-CKS-title = Shortcuts
 category-zen-CKS =
-    .tooltiptext = { pane-zen-CKS-title }
-pane-settings-CKS-title = { -brand-short-name } Keyboard Shortcuts
+    .tooltiptext = { pane-zen-shortcuts-title }
+pane-settings-CKS-title = { -brand-short-name } shortcuts
 
 zen-settings-CKS-header = Customize your keyboard shortcuts
 zen-settings-CKS-description = Change the default keyboard shortcuts to your liking and improve your browsing experience

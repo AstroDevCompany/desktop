@@ -2,9 +2,36 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-pane-zen-looks-title = Внешний вид
-category-zen-looks = 
-    .tooltiptext = { pane-zen-looks-title }
+pane-zen-sidebar-layout-title = Sidebar & layout
+category-zen-sidebar-layout =
+    .tooltiptext = { pane-zen-sidebar-layout-title }
+
+pane-zen-toolbar-urlbar-title = Toolbar & address bar
+category-zen-toolbar-urlbar =
+    .tooltiptext = { pane-zen-toolbar-urlbar-title }
+
+pane-zen-spaces-tabs-title = Spaces & tabs
+category-zen-spaces-tabs =
+    .tooltiptext = { pane-zen-spaces-tabs-title }
+
+pane-zen-shortcuts-title = Shortcuts
+category-zen-shortcuts =
+    .tooltiptext = { pane-zen-shortcuts-title }
+
+zen-sidebar-layout-section-title = Sidebar & layout
+zen-tab-list-section-title = Tab list
+zen-compact-toolbar-section-title = Compact toolbar
+zen-address-bar-section-title = Address bar
+zen-tab-switching-section-title = Tab switching
+zen-tab-switching-header = Tab switching behavior
+zen-tab-switching-description = Control how tabs are selected when you close tabs or cycle with Ctrl+Tab.
+zen-pinned-essentials-section-title = Pinned tabs & essentials
+zen-glance-section-title = Link preview
+
+zen-settings-spaces-sync-footer =
+    Workspace sync is managed in your Mozilla account settings.
+    <a data-l10n-name="sync-link">Open Sync settings</a>
+
 zen-warning-language = Изменение языка по умолчанию может упростить сайтам слежку за вами.
 zen-vertical-tabs-layout-header = Макет браузера
 zen-vertical-tabs-layout-description = Выберите макет, который подходит именно вам
@@ -42,9 +69,6 @@ zen-look-and-feel-window-drag-header = Перетаскивание окна
 zen-look-and-feel-window-drag-description = Перемещайте окно, перетаскивая пустое место в верхней части веб-сайтов, так же как и в заголовке.
 zen-window-drag-enabled = 
     .label = Разрешить перетаскивание окна с веб-страниц
-pane-zen-tabs-title = Управление вкладками
-category-zen-workspaces = 
-    .tooltiptext = { pane-zen-tabs-title }
 pane-settings-workspaces-title = Рабочие пространства
 zen-tabs-select-recently-used-on-close = 
     .label = При закрытии вкладки переключиться на последнюю используемую вкладку вместо следующей вкладки

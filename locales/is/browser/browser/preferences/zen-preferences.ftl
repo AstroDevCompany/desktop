@@ -2,9 +2,36 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-pane-zen-looks-title = Útlit og viðmót
-category-zen-looks = 
-    .tooltiptext = { pane-zen-looks-title }
+pane-zen-sidebar-layout-title = Sidebar & layout
+category-zen-sidebar-layout =
+    .tooltiptext = { pane-zen-sidebar-layout-title }
+
+pane-zen-toolbar-urlbar-title = Toolbar & address bar
+category-zen-toolbar-urlbar =
+    .tooltiptext = { pane-zen-toolbar-urlbar-title }
+
+pane-zen-spaces-tabs-title = Spaces & tabs
+category-zen-spaces-tabs =
+    .tooltiptext = { pane-zen-spaces-tabs-title }
+
+pane-zen-shortcuts-title = Shortcuts
+category-zen-shortcuts =
+    .tooltiptext = { pane-zen-shortcuts-title }
+
+zen-sidebar-layout-section-title = Sidebar & layout
+zen-tab-list-section-title = Tab list
+zen-compact-toolbar-section-title = Compact toolbar
+zen-address-bar-section-title = Address bar
+zen-tab-switching-section-title = Tab switching
+zen-tab-switching-header = Tab switching behavior
+zen-tab-switching-description = Control how tabs are selected when you close tabs or cycle with Ctrl+Tab.
+zen-pinned-essentials-section-title = Pinned tabs & essentials
+zen-glance-section-title = Link preview
+
+zen-settings-spaces-sync-footer =
+    Workspace sync is managed in your Mozilla account settings.
+    <a data-l10n-name="sync-link">Open Sync settings</a>
+
 zen-warning-language = Það að breyta sjálfgefnu tungumáli gæti gert vefsvæðum auðveldara að fylgjast með ferðum þínum.
 zen-vertical-tabs-layout-header = Framsetning vafra
 zen-vertical-tabs-layout-description = Veldu framsetninguna sem hentar þér best
@@ -42,9 +69,6 @@ zen-look-and-feel-window-drag-header = Gluggadráttur
 zen-look-and-feel-window-drag-description = Færðu gluggann með því að draga autt svæði efst á vefsíðum, rétt eins og titilstikuna.
 zen-window-drag-enabled = 
     .label = Leyfa að draga gluggann af vefsíðum
-pane-zen-tabs-title = Umsýsla flipa
-category-zen-workspaces = 
-    .tooltiptext = { pane-zen-tabs-title }
 pane-settings-workspaces-title = Vinnusvæði
 zen-tabs-select-recently-used-on-close = 
     .label = Þegar flipa er lokað skal skipta á þann flipa sem síðast var notaður, í stað þess að fara á næsta flipa

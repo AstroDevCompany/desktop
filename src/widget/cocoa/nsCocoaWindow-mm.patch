@@ -1,5 +1,5 @@
 diff --git a/widget/cocoa/nsCocoaWindow.mm b/widget/cocoa/nsCocoaWindow.mm
-index 887e4c052d5dd2b73d4c2059463529fb4b09dcab..36da18e19018b1b216576c299f938e75093546d3 100644
+index e467ce48f5..b890019745 100644
 --- a/widget/cocoa/nsCocoaWindow.mm
 +++ b/widget/cocoa/nsCocoaWindow.mm
 @@ -86,6 +86,8 @@
@@ -11,7 +11,7 @@ index 887e4c052d5dd2b73d4c2059463529fb4b09dcab..36da18e19018b1b216576c299f938e75
  #include "mozilla/WritingModes.h"
  #include "mozilla/dom/Document.h"
  #include "mozilla/layers/CompositorBridgeChild.h"
-@@ -1332,6 +1334,110 @@ - (NSRect)_opaqueRectForWindowMoveWhenInTitlebar {
+@@ -1332,6 +1334,110 @@ mozilla::VibrancyManager& nsCocoaWindow::EnsureVibrancyManager() {
  }
  @end
  
@@ -122,7 +122,7 @@ index 887e4c052d5dd2b73d4c2059463529fb4b09dcab..36da18e19018b1b216576c299f938e75
  void nsCocoaWindow::UpdateWindowDraggingRegion(
      const LayoutDeviceIntRegion& aRegion) {
    // mChildView returns YES from mouseDownCanMoveWindow, so we need to put
-@@ -3858,7 +3964,9 @@ - (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender {
+@@ -3877,7 +3983,9 @@ static gfx::IntPoint GetIntegerDeltaForEvent(NSEvent* aEvent) {
  // NSDraggingDestination
  - (NSDragOperation)draggingUpdated:(id<NSDraggingInfo>)sender {
    MOZ_LOG(sCocoaLog, LogLevel::Info, ("ChildView draggingUpdated: entered\n"));
@@ -133,7 +133,7 @@ index 887e4c052d5dd2b73d4c2059463529fb4b09dcab..36da18e19018b1b216576c299f938e75
  }
  
  // NSDraggingDestination
-@@ -3874,6 +3982,9 @@ - (void)draggingExited:(id<NSDraggingInfo>)sender {
+@@ -3893,6 +4001,9 @@ static gfx::IntPoint GetIntegerDeltaForEvent(NSEvent* aEvent) {
  - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender {
    nsAutoRetainCocoaObject kungFuDeathGrip(self);
    BOOL handled = [self doDragAction:eDrop sender:sender] != NSDragOperationNone;
@@ -143,7 +143,7 @@ index 887e4c052d5dd2b73d4c2059463529fb4b09dcab..36da18e19018b1b216576c299f938e75
    NS_IF_RELEASE(mDragService);
    return handled;
  }
-@@ -4919,6 +5030,10 @@ - (BOOL)wantsBestResolutionOpenGLSurface {
+@@ -4938,6 +5049,10 @@ void nsCocoaWindow::DestroyNativeWindow() {
  nsCocoaWindow::~nsCocoaWindow() {
    NS_OBJC_BEGIN_TRY_IGNORE_BLOCK;
  
@@ -154,22 +154,21 @@ index 887e4c052d5dd2b73d4c2059463529fb4b09dcab..36da18e19018b1b216576c299f938e75
    RemoveAllChildren();
    if (mWindow && mWindowMadeHere) {
      CancelAllTransitions();
-@@ -7377,8 +7492,11 @@ void nsCocoaWindow::SetColorScheme(const Maybe<ColorScheme>& aScheme) {
+@@ -7242,8 +7357,12 @@ void nsCocoaWindow::SetColorScheme(const Maybe<ColorScheme>& aScheme) {
    if (!mWindow) {
      return;
    }
--  NSAppearance* appearance =
--      aScheme ? NSAppearanceForColorScheme(*aScheme) : nil;
 +  // Popups stay in the light appearance so their glass is milky, not the
 +  // dark menu material.
-+  NSAppearance* appearance =
+   NSAppearance* appearance =
+-      aScheme ? NSAppearanceForColorScheme(*aScheme) : nil;
 +      mWindowType == WindowType::Popup
 +          ? [NSAppearance appearanceNamed:NSAppearanceNameAqua]
 +          : (aScheme ? NSAppearanceForColorScheme(*aScheme) : nil);
    if (mWindow.appearance != appearance) {
      mWindow.appearance = appearance;
    }
-@@ -8184,47 +8299,71 @@ static NSVisualEffectView* CreateVibrancyView(NSRect aFrame,
+@@ -8165,26 +8284,36 @@ static NSVisualEffectView* CreateVibrancyView(NSRect aFrame,
  }
  
  // Returns a retained view. The caller owns it.
@@ -216,7 +215,7 @@ index 887e4c052d5dd2b73d4c2059463529fb4b09dcab..36da18e19018b1b216576c299f938e75
        return [[NSView alloc] initWithFrame:frame];
    }
  }
- 
+@@ -8192,13 +8321,42 @@ static NSVisualEffectView* CreateVibrancyView(NSRect aFrame,
  // Add an effect view wrapper if needed so that the OS draws the appropriate
  // vibrancy effect and window border.
  - (void)setEffectViewWrapperForStyle:(WindowShadow)aStyle {
@@ -260,4 +259,3 @@ index 887e4c052d5dd2b73d4c2059463529fb4b09dcab..36da18e19018b1b216576c299f938e75
    [childView release];
    super.contentView = wrapper;
    [wrapper release];
- }

@@ -1,0 +1,84 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+<script type="text/javascript" src="chrome://browser/content/preferences/zen-settings.js"/>
+
+<html:template id="template-paneZenSidebarLayout">
+
+<hbox id="zenVerticalTabsCategory"
+      class="subcategory"
+      hidden="true"
+      data-category="paneZenSidebarLayout">
+<html:h1 data-l10n-id="zen-sidebar-layout-section-title"/>
+</hbox>
+
+<groupbox id="zenVerticalTabsGroup" data-category="paneZenSidebarLayout" hidden="true" class="highlighting-group">
+  <label><html:h2 data-l10n-id="zen-vertical-tabs-layout-header"/></label>
+    <description class="description-deemphasized" data-l10n-id="zen-vertical-tabs-layout-description" />
+    <hbox id="zenLayoutList">
+      <hbox layout="single">
+        <html:img src="chrome://browser/content/zen-images/layouts/single-toolbar.png" />
+        <label data-l10n-id="zen-layout-single-toolbar"></label>
+      </hbox>
+      <hbox layout="multiple">
+        <html:img src="chrome://browser/content/zen-images/layouts/multiple-toolbar.png" />
+        <label data-l10n-id="zen-layout-multiple-toolbar"></label>
+      </hbox>
+      <hbox layout="collapsed">
+        <html:img src="chrome://browser/content/zen-images/layouts/collapsed.png" />
+        <label data-l10n-id="zen-layout-collapsed-toolbar"></label>
+      </hbox>
+    </hbox>
+</groupbox>
+
+<hbox id="zenTabListCategory"
+      class="subcategory"
+      hidden="true"
+      data-category="paneZenSidebarLayout">
+<html:h1 data-l10n-id="zen-tab-list-section-title"/>
+</hbox>
+
+<groupbox id="zenTabListGroup" data-category="paneZenSidebarLayout" hidden="true" class="highlighting-group">
+  <label><html:h2 data-l10n-id="zen-vertical-tabs-header"/></label>
+      <description class="description-deemphasized" data-l10n-id="zen-vertical-tabs-description" />
+
+      <checkbox id="zenLooksAndFeelNewtabUnderLastTab"
+            data-l10n-id="zen-vertical-tabs-newtab-on-tab-list"
+            preference="zen.tabs.show-newtab-vertical"/>
+    <vbox class="indent">
+        <checkbox id="zenLooksAndFeelMoveNewtabToTop"
+                data-l10n-id="zen-vertical-tabs-newtab-top-button-up"
+                preference="zen.view.show-newtab-button-top"/>
+    </vbox>
+    <html:div data-l10n-id="preferences-web-appearance-footer">
+        <html:a id="web-appearance-manage-themes-link" class="text-link" data-l10n-name="themes-link" href="about:addons" target="_blank" />
+    </html:div>
+</groupbox>
+
+<hbox id="zenLibraryCategory"
+      class="subcategory"
+      hidden="true"
+      data-category="paneZenSidebarLayout">
+<html:h1 data-l10n-id="zen-library-settings-title"/>
+</hbox>
+
+<groupbox id="zenLibraryGroup" data-category="paneZenSidebarLayout" hidden="true" class="highlighting-group">
+      <label><html:h2 data-l10n-id="zen-library-settings-header"/></label>
+      <description class="description-deemphasized" data-l10n-id="zen-library-settings-description" />
+
+      <hbox align="center">
+            <label data-l10n-id="zen-library-default-section-label"/>
+            <menulist id="zenLibraryDefaultSection" preference="zen.library.default-section">
+                  <menupopup>
+                        <menuitem data-l10n-id="zen-library-default-section-downloads" value="downloads"/>
+                        <menuitem data-l10n-id="zen-library-default-section-history" value="history"/>
+                        <menuitem data-l10n-id="zen-library-default-section-boosts" value="boosts"/>
+                        <menuitem data-l10n-id="zen-library-default-section-spaces" value="spaces"/>
+                        <menuitem data-l10n-id="zen-library-default-section-media" value="media"/>
+                  </menupopup>
+            </menulist>
+        </hbox>
+</groupbox>
+
+</html:template>

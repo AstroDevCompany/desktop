@@ -2,24 +2,22 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-<html:template id="template-paneZenTabManagement">
-<hbox id="ZenWorkspacesCategory"
+<html:template id="template-paneZenSpacesTabs">
+
+<hbox id="zenSpacesCategory"
       class="subcategory"
       hidden="true"
-      data-category="paneZenTabManagement">
+      data-category="paneZenSpacesTabs">
+<html:h1 data-l10n-id="pane-zen-workspaces-header"/>
 </hbox>
 
-<hbox id="zenTabManagementCategory"
-      class="subcategory"
-      hidden="true"
-      data-category="paneZenTabManagement">
-<html:h1 data-l10n-id="pane-settings-workspaces-title"/>
-</hbox>
-
-<groupbox id="zenWorkspacesGroup" data-category="paneZenTabManagement" hidden="true" class="highlighting-group">
+<groupbox id="zenSpacesGroup" data-category="paneZenSpacesTabs" hidden="true" class="highlighting-group">
       <label><html:h2 data-l10n-id="zen-settings-workspaces-header"/></label>
       <description class="description-deemphasized" data-l10n-id="zen-settings-workspaces-description" />
 
+      <checkbox id="zenWorkspaceContinueWhereLeftOff"
+            data-l10n-id="zen-workspace-continue-where-left-off"
+            preference="zen.workspaces.continue-where-left-off"/>
       <checkbox id="zenWorkspacesSyncUnpinnedTabs"
             data-l10n-id="zen-settings-workspaces-sync-unpinned-tabs"
             preference="zen.window-sync.sync-only-pinned-tabs"/>
@@ -29,6 +27,26 @@
       <checkbox id="zenWorkspacesForceContainerTabsToWorkspace"
             data-l10n-id="zen-settings-workspaces-force-container-tabs-to-workspace"
             preference="zen.workspaces.force-container-workspace"/>
+      <checkbox id="zenPinnedTabContainerSpecificEssentials"
+            data-l10n-id="zen-pinned-tab-manager-container-specific-essentials-enabled"
+            preference="zen.workspaces.separate-essentials"/>
+
+      <html:div data-l10n-id="zen-settings-spaces-sync-footer">
+            <html:a id="zenSpacesOpenSyncSettings" class="text-link" data-l10n-name="sync-link" href="#"/>
+      </html:div>
+</groupbox>
+
+<hbox id="zenTabSwitchingCategory"
+      class="subcategory"
+      hidden="true"
+      data-category="paneZenSpacesTabs">
+<html:h1 data-l10n-id="zen-tab-switching-section-title"/>
+</hbox>
+
+<groupbox id="zenTabSwitchingGroup" data-category="paneZenSpacesTabs" hidden="true" class="highlighting-group">
+      <label><html:h2 data-l10n-id="zen-tab-switching-header"/></label>
+      <description class="description-deemphasized" data-l10n-id="zen-tab-switching-description" />
+
       <checkbox id="zenTabsCloseOnBackWithNoHistory"
             data-l10n-id="zen-tabs-close-on-back-with-no-history"
             preference="zen.tabs.close-on-back-with-no-history"/>
@@ -47,20 +65,17 @@
 <hbox id="zenPinnedTabsManagerCategory"
       class="subcategory"
       hidden="true"
-      data-category="paneZenTabManagement">
-      <html:h1 data-l10n-id="pane-zen-pinned-tab-manager-title"/>
+      data-category="paneZenSpacesTabs">
+      <html:h1 data-l10n-id="zen-pinned-essentials-section-title"/>
 </hbox>
 
-<groupbox id="zenPinnedTabsManagerGroup" data-category="paneZenTabManagement" hidden="true" class="highlighting-group">
+<groupbox id="zenPinnedTabsManagerGroup" data-category="paneZenSpacesTabs" hidden="true" class="highlighting-group">
       <label><html:h2 data-l10n-id="zen-pinned-tab-manager-header"/></label>
       <description class="description-deemphasized" data-l10n-id="zen-pinned-tab-manager-description" />
 
       <checkbox id="zenPinnedTabRestorePinnedTabsToPinnedUrl"
                 data-l10n-id="zen-pinned-tab-manager-restore-pinned-tabs-to-pinned-url"
                 preference="zen.pinned-tab-manager.restore-pinned-tabs-to-pinned-url"/>
-      <checkbox id="zenPinnedTabContainerSpecificEssentials"
-                data-l10n-id="zen-pinned-tab-manager-container-specific-essentials-enabled"
-                preference="zen.workspaces.separate-essentials"/>
 
       <hbox align="center">
             <label id="zenPinnedTabCloseShortcutBehaviorLabel" data-l10n-id="zen-pinned-tab-manager-close-shortcut-behavior-label"/>
@@ -77,6 +92,33 @@
       </hbox>
 </groupbox>
 
+<hbox id="zenGlanceCategory"
+      class="subcategory"
+      hidden="true"
+      data-category="paneZenSpacesTabs">
+<html:h1 data-l10n-id="zen-glance-section-title"/>
+</hbox>
+
+<groupbox id="zenGlanceGroup" data-category="paneZenSpacesTabs" hidden="true" class="highlighting-group">
+      <label><html:h2 data-l10n-id="zen-glance-header"/></label>
+      <description class="description-deemphasized" data-l10n-id="zen-glance-description" />
+
+      <checkbox id="zenLooksAndFeelGlanceEnabled"
+            data-l10n-id="zen-glance-enabled"
+            preference="zen.glance.enabled"/>
+      <hbox align="center">
+            <label id="zenGlanceTriggerLabel" data-l10n-id="zen-glance-trigger-label"/>
+            <menulist id="zenGlanceTrigger" preference="zen.glance.activation-method">
+                  <menupopup>
+                        <menuitem data-l10n-id="zen-glance-trigger-ctrl-click" value="ctrl"/>
+                        <menuitem data-l10n-id="zen-glance-trigger-alt-click" value="alt"/>
+                        <menuitem data-l10n-id="zen-glance-trigger-shift-click" value="shift"/>
+#ifdef XP_MACOSX
+                        <menuitem data-l10n-id="zen-glance-trigger-meta-click" value="meta"/>
+#endif
+                  </menupopup>
+            </menulist>
+        </hbox>
+</groupbox>
+
 </html:template>
-
-
