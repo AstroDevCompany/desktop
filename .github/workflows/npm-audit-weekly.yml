@@ -1,0 +1,85 @@
+name: Weekly npm audit
+
+on:
+  schedule:
+    # Mondays 09:00 UTC
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: npm-audit-weekly
+  cancel-in-progress: false
+
+jobs:
+  audit-and-fix:
+    name: Safe npm audit fixes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+
+      - name: Setup git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Apply safe audit fixes
+        run: npm run audit:fix-safe
+
+      - name: Check if dependency files changed
+        id: git-check
+        run: |
+          if git status --porcelain -- package.json package-lock.json | grep -q .; then
+            echo "files_changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "files_changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Prepare pull request body
+        if: steps.git-check.outputs.files_changed == 'true'
+        run: |
+          cat <<'EOF' > npm-audit-pr-body.md
+          Automated weekly dependency security maintenance.
+
+          **What this PR does**
+          - Runs `npm run audit:fix-safe` (`npm audit fix` without `--force`)
+          - Bumps the `sharp` override when audit still flags sharp, with a surfer branding smoke test
+          - Does **not** run `npm audit fix --force` (e.g. lint-staged major upgrades)
+
+          **Remaining high+ findings** (if any; may be accepted dev-only risk):
+          EOF
+          {
+            echo '```'
+            npm audit --audit-level=high 2>&1 || true
+            echo '```'
+            echo ""
+            echo "Workflow run: [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          } >> npm-audit-pr-body.md
+
+      - name: Create pull request
+        if: steps.git-check.outputs.files_changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        env:
+          GIT_TRACE: 1
+          GIT_CURL_VERBOSE: 1
+        with:
+          token: ${{ secrets.DEPLOY_KEY }}
+          commit-message: "chore: apply safe npm audit fixes"
+          branch: "chore/npm-audit-${{ github.run_id }}"
+          title: "chore: weekly safe npm audit fixes"
+          body-path: npm-audit-pr-body.md
+          base: dev
+          git-token: ${{ secrets.DEPLOY_KEY }}
+          delete-branch: true
