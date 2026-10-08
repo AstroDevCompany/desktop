@@ -60,5 +60,8 @@
     "typescript": "^5.9.3"
   },
   "notes(private)": "We don't want to publish to npm, so this is marked as private",
-  "private": true
+  "private": true,
+  "overrides": {
+    "sharp": "0.35.5"
+  }
 }
