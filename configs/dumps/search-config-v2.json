@@ -8,6 +8,9 @@
       // its not very privacy focused.
       "perplexity",
 
+      // Available in several European locales; not a default option.
+      "qwant",
+
       // These are not search engines, Firefox adds them by default
       // but we don't want them.
       "wikipedia",

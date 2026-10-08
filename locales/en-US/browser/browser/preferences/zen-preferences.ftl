@@ -334,3 +334,11 @@ zen-close-all-unpinned-tabs-shortcut = Close All Unpinned Tabs
 zen-new-unsynced-window-shortcut = New Blank Window
 zen-duplicate-tab-shortcut = Duplicate Tab
 zen-key-find-selection = Find Selection
+
+# Keyboard navigation: Tab either switches tabs or moves focus in the page.
+tab-key-behavior =
+    .label = Tab key
+tab-key-behavior-tabs =
+    .label = Use the tab key without CTRL to move between tabs
+tab-key-behavior-focus =
+    .label = Use the tab key to move focus between form controls and links

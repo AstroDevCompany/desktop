@@ -349,6 +349,24 @@ html|setting-group:is([data-subcategory="layout"], [groupid="support"], [groupid
   }
 }
 
+.tab-key-behavior-chooser {
+  width: 100%;
+}
+
+.tab-key-behavior-item {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.tab-key-behavior-chooser {
+  width: 100%;
+}
+
+.tab-key-behavior-item {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
 @media -moz-pref("zen.urlbar.replace-newtab") {
   #category-home {
     display: none !important;
