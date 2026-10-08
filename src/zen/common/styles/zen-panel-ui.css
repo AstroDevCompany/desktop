@@ -31,23 +31,24 @@ panel[type="arrow"]:not(#feature-callout) {
   }
 
   @media (-moz-platform: linux) or ((-moz-platform: windows) and (not (-moz-windows-mica-popups))) {
-    --panel-background-color: rgb(255 255 255 / 58%) !important;
-    color-scheme: light !important;
-    color: rgb(28, 28, 30);
-    --panel-text-color: rgb(28, 28, 30);
+    --panel-background-color: var(--zen-popup-background, rgb(255 255 255 / 58%)) !important;
+    color: var(--zen-popup-foreground, rgb(28, 28, 30));
+    --panel-text-color: var(--zen-popup-foreground, rgb(28, 28, 30));
 
     &::part(content) {
       /* stylelint-disable-next-line property-no-unknown */
       corner-shape: round;
       border-radius: calc(var(--panel-border-radius) / var(--zen-squircle-value));
       backdrop-filter: blur(32px) saturate(1.45);
+      background-color: var(--zen-popup-background, rgb(255 255 255 / 58%)) !important;
     }
 
     @media (prefers-reduced-transparency: reduce) {
-      --panel-background-color: light-dark(rgb(244, 244, 244), rgb(31, 31, 31)) !important;
+      --panel-background-color: var(--zen-popup-background-solid, rgb(244, 244, 244)) !important;
 
       &::part(content) {
         backdrop-filter: none;
+        background-color: var(--zen-popup-background-solid, rgb(244, 244, 244)) !important;
       }
     }
   }
@@ -55,16 +56,14 @@ panel[type="arrow"]:not(#feature-callout) {
   @media (-moz-platform: macos) {
     appearance: auto !important;
     -moz-default-appearance: menupopup;
-    /* Light wash over the window blur. Dark mode still stays milky, not black. */
-    color-scheme: light !important;
     background-color: transparent !important;
-    color: rgb(28, 28, 30);
-    --panel-text-color: rgb(28, 28, 30);
-    --panel-item-hover-bgcolor: rgb(0 0 0 / 8%);
-    --panel-item-active-bgcolor: rgb(0 0 0 / 14%);
+    color: var(--zen-popup-foreground, rgb(28, 28, 30));
+    --panel-text-color: var(--zen-popup-foreground, rgb(28, 28, 30));
+    --panel-item-hover-bgcolor: var(--zen-popup-hover, rgb(0 0 0 / 8%));
+    --panel-item-active-bgcolor: var(--zen-popup-active, rgb(0 0 0 / 14%));
 
     --panel-box-shadow-margin: 0px !important;
-    --panel-background-color: rgb(255 255 255 / 42%) !important;
+    --panel-background-color: var(--zen-popup-background, rgb(255 255 255 / 42%)) !important;
     --panel-border-color: transparent;
 
     /* Remove the shadow for the native panels, as macos already
@@ -75,15 +74,31 @@ panel[type="arrow"]:not(#feature-callout) {
     --panel-box-shadow: none;
 
     &::part(content) {
-      background-color: rgb(255 255 255 / 42%) !important;
+      background-color: var(--zen-popup-background, rgb(255 255 255 / 42%)) !important;
       backdrop-filter: blur(48px) saturate(1.8);
       border-color: var(--panel-border-color);
     }
 
     @media (prefers-reduced-transparency: reduce) {
-      background-color: rgb(244, 244, 246) !important;
-      --panel-background-color: rgb(244, 244, 246) !important;
+      background-color: var(--zen-popup-background-solid, rgb(244, 244, 246)) !important;
+      --panel-background-color: var(--zen-popup-background-solid, rgb(244, 244, 246)) !important;
       --panel-border-color: transparent;
+
+      &::part(content) {
+        background-color: var(--zen-popup-background-solid, rgb(244, 244, 246)) !important;
+        backdrop-filter: none;
+      }
     }
   }
+}
+
+/* Native macOS tooltips stay light while dark-mode text is white. Paint them ourselves. */
+tooltip {
+  appearance: none;
+  -moz-default-appearance: none;
+  background-color: var(--zen-tooltip-background, light-dark(rgb(244, 244, 246), rgb(28, 28, 30))) !important;
+  color: var(--zen-tooltip-foreground, light-dark(rgb(28, 28, 30), rgb(244, 244, 246))) !important;
+  border: 1px solid var(--zen-tooltip-border, light-dark(rgb(0 0 0 / 12%), rgb(255 255 255 / 16%))) !important;
+  border-radius: 6px;
+  padding: 4px 8px;
 }

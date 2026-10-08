@@ -572,12 +572,12 @@
     flex-direction: row-reverse;
   }
 
-  & toolbarbutton {
+    & toolbarbutton {
     margin: 0;
     appearance: none;
-    -moz-context-properties: fill;
-    fill: currentColor;
-    color: light-dark(rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.8));
+    -moz-context-properties: fill, fill-opacity;
+    fill: var(--zen-primary-color) !important;
+    color: var(--zen-primary-color) !important;
     width: var(--size-item-xlarge);
     height: var(--size-item-large);
     position: relative;
@@ -591,10 +591,14 @@
       display: none;
     }
 
-    & image {
+    & image,
+    & .toolbarbutton-icon {
       width: 18px;
       pointer-events: none;
       z-index: 1;
+      -moz-context-properties: fill, fill-opacity;
+      fill: var(--zen-primary-color) !important;
+      color: var(--zen-primary-color) !important;
     }
 
     &::before {
@@ -605,14 +609,17 @@
       will-change: transform;
 
       @media (-moz-platform: macos) {
-        background: linear-gradient(to bottom, light-dark(rgb(255, 255, 255), rgb(34, 34, 34)), light-dark(rgb(246, 246, 246), rgb(21, 21, 21)));
+        background: linear-gradient(
+          to bottom,
+          var(--zen-raised-button-background, rgb(255, 255, 255)),
+          var(--zen-raised-button-background-bottom, rgb(246, 246, 246))
+        );
 
         box-shadow:
           0 1px 2px rgba(0, 0, 0, 0.1),
-          inset 0 1px 0 light-dark(transparent, rgba(255, 255, 255, 0.15));
+          inset 0 1px 0 var(--zen-raised-button-inset, transparent);
         border-radius: 6px;
-        --base-border-color: light-dark(rgba(0, 0, 0, 0.3), rgba(255, 255, 255, 0.1));
-        border: 0.5px solid light-dark(var(--base-border-color), rgb(21, 21, 21));
+        border: 0.5px solid var(--zen-raised-button-border, rgba(0, 0, 0, 0.3));
       }
 
       @media not (-moz-platform: macos) {

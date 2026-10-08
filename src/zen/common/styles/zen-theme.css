@@ -373,6 +373,16 @@ html:root,
   --background-color-box-info: var(--zen-panel-raised-background) !important;
 }
 
+tooltip {
+  appearance: none;
+  -moz-default-appearance: none;
+  background-color: var(--zen-tooltip-background, light-dark(rgb(244, 244, 246), rgb(28, 28, 30))) !important;
+  color: var(--zen-tooltip-foreground, light-dark(rgb(28, 28, 30), rgb(244, 244, 246))) !important;
+  border: 1px solid var(--zen-tooltip-border, light-dark(rgb(0 0 0 / 12%), rgb(255 255 255 / 16%))) !important;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
 %include zen-buttons.css
 
 @media (-moz-pref('layout.css.corner-shape.enabled')) {
