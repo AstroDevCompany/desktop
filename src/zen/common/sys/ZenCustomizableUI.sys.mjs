@@ -6,6 +6,7 @@ import { AppConstants } from "resource://gre/modules/AppConstants.sys.mjs";
 
 const lazy = {};
 ChromeUtils.defineESModuleGetters(lazy, {
+  ZenGhostModeWidget: "moz-src:///zen/ghost-mode/ZenGhostModeWidget.sys.mjs",
   ZenLibraryWidget: "moz-src:///zen/library/ZenLibraryWidget.sys.mjs",
 });
 
@@ -21,12 +22,14 @@ export const ZenCustomizableUI = new (class {
     Services.prefs.getBoolPref("zen.library.enabled")
       ? "zen-library-button"
       : "downloads-button",
+    "zen-ghost-mode-button",
     "zen-workspaces-button",
     "zen-create-new-button",
   ];
 
   startup(CustomizableUIInternal) {
     CustomizableUIInternal.createBuiltinWidget(lazy.ZenLibraryWidget);
+    CustomizableUIInternal.createBuiltinWidget(lazy.ZenGhostModeWidget);
     CustomizableUIInternal.registerArea(
       "zen-sidebar-top-buttons",
       {

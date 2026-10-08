@@ -26,6 +26,7 @@ class nsZenUIMigration {
       }
     }
     this.#migrateLibraryButton();
+    this.#migrateGhostModeButton();
     this.clearVariables();
     if (this.shouldRestart) {
       Services.startup.quit(
@@ -85,6 +86,44 @@ class nsZenUIMigration {
         if (standsIn) {
           lazy.CustomizableUI.removeWidgetFromArea("downloads-button");
         }
+      },
+    };
+    lazy.CustomizableUI.addListener(listener);
+  }
+
+  #migrateGhostModeButton() {
+    const donePref = "zen.ghost-mode.migrated-sidebar-button";
+    if (Services.prefs.getBoolPref(donePref, false)) {
+      return;
+    }
+    const footButtons = "zen-sidebar-foot-buttons";
+    const listener = {
+      onAreaNodeRegistered: area => {
+        if (area !== footButtons) {
+          return;
+        }
+        lazy.CustomizableUI.removeListener(listener);
+        Services.prefs.setBoolPref(donePref, true);
+        if (lazy.CustomizableUI.getPlacementOfWidget("zen-ghost-mode-button")) {
+          return;
+        }
+        const library = lazy.CustomizableUI.getPlacementOfWidget(
+          "zen-library-button"
+        );
+        const downloads = lazy.CustomizableUI.getPlacementOfWidget(
+          "downloads-button"
+        );
+        const anchor =
+          library?.area === footButtons
+            ? library
+            : downloads?.area === footButtons
+              ? downloads
+              : null;
+        lazy.CustomizableUI.addWidgetToArea(
+          "zen-ghost-mode-button",
+          footButtons,
+          anchor ? anchor.position + 1 : 1
+        );
       },
     };
     lazy.CustomizableUI.addListener(listener);

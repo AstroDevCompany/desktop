@@ -71,6 +71,10 @@ zen-workspace-renamed-toast = Workspace has been successfully renamed!
 zen-split-view-limit-toast = Can't add more panels to the split view!
 zen-sidebar-drag-collapsed-toast = Sidebar hidden! Use <span>{ $shortcut }</span> to bring the sidebar back.
 
+zen-ghost-mode-button =
+    .label = Ghost Mode
+    .tooltiptext = Open a new Ghost Window
+
 zen-toggle-compact-mode-button =
     .label = Compact Mode
     .tooltiptext = Toggle Compact Mode
