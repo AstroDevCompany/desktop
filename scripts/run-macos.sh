@@ -3,7 +3,8 @@
 #
 # Installs missing build tools, downloads the Firefox engine on a fresh
 # checkout, builds once, then launches the browser. Later runs skip the
-# build when an app is already present.
+# build when an app is already present. Builds on an external MOZ_OBJDIR are
+# ad-hoc re-signed before launch (needed after build / build:ui).
 #
 #   ./scripts/run-macos.sh
 #   ./scripts/run-macos.sh --rebuild
@@ -120,7 +121,50 @@ find_browser() {
   return 1
 }
 
+# True when path lives on a different device than the boot volume (e.g. /Volumes/...).
+path_on_external_disk() {
+  local target="$1"
+  [[ -e "$target" ]] || return 1
+  local target_dev root_dev
+  target_dev="$(stat -f %d "$target")"
+  root_dev="$(stat -f %d /)"
+  [[ "$target_dev" != "$root_dev" ]]
+}
+
+# Incremental builds on external volumes often leave XUL unsigned while macOS
+# still expects a valid signature (SIGKILL / CODESIGNING Invalid Page).
+resign_macos_app_if_needed() {
+  local zen_bin="$1"
+  local app_dir macos_dir binary signed=0 failed=0
+  app_dir="$(cd "$(dirname "$zen_bin")/../.." && pwd)"
+  macos_dir="$app_dir/Contents/MacOS"
+  [[ -d "$macos_dir" ]] || return 0
+
+  if ! path_on_external_disk "$macos_dir"; then
+    return 0
+  fi
+
+  log "External build volume detected; re-signing dev binaries before launch"
+  for binary in XUL zen libmozglue.dylib; do
+    if [[ ! -f "$macos_dir/$binary" ]]; then
+      continue
+    fi
+    if codesign -f -s - "$macos_dir/$binary"; then
+      signed=$((signed + 1))
+    else
+      echo "Warning: could not re-sign $binary" >&2
+      failed=$((failed + 1))
+    fi
+  done
+  if [[ "$signed" -eq 0 ]]; then
+    echo "Warning: no binaries were re-signed; the app may crash on launch." >&2
+  elif [[ "$failed" -gt 0 ]]; then
+    echo "Warning: some binaries failed to re-sign ($failed)." >&2
+  fi
+}
+
 if [[ "$REBUILD" -eq 0 ]] && browser="$(find_browser)"; then
+  resign_macos_app_if_needed "$browser"
   log "Launching $browser"
   exec npm start
 fi
@@ -201,5 +245,8 @@ fi
 log "Building Peppermint ($jobs jobs). The first build can take a few hours."
 npm run build -- --jobs "$jobs"
 
+if browser="$(find_browser)"; then
+  resign_macos_app_if_needed "$browser"
+fi
 log "Launching Peppermint"
 exec npm start

@@ -45,6 +45,31 @@
     </html:div>
 </groupbox>
 
+<hbox id="zenLibraryCategory"
+      class="subcategory"
+      hidden="true"
+      data-category="paneZenLooks">
+<html:h1 data-l10n-id="zen-library-settings-title"/>
+</hbox>
+
+<groupbox id="zenLibraryGroup" data-category="paneZenLooks" hidden="true" class="highlighting-group">
+      <label><html:h2 data-l10n-id="zen-library-settings-header"/></label>
+      <description class="description-deemphasized" data-l10n-id="zen-library-settings-description" />
+
+      <hbox align="center">
+            <label data-l10n-id="zen-library-default-section-label"/>
+            <menulist id="zenLibraryDefaultSection" preference="zen.library.default-section">
+                  <menupopup>
+                        <menuitem data-l10n-id="zen-library-default-section-downloads" value="downloads"/>
+                        <menuitem data-l10n-id="zen-library-default-section-history" value="history"/>
+                        <menuitem data-l10n-id="zen-library-default-section-boosts" value="boosts"/>
+                        <menuitem data-l10n-id="zen-library-default-section-spaces" value="spaces"/>
+                        <menuitem data-l10n-id="zen-library-default-section-media" value="media"/>
+                  </menupopup>
+            </menulist>
+        </hbox>
+</groupbox>
+
 <hbox id="zenThemeCategory"
       class="subcategory"
       hidden="true"

@@ -21,6 +21,21 @@ sync-engine-workspaces =
     .tooltiptext = Sync your workspaces across devices
     .accesskey = W
 
+zen-library-settings-title = Library
+zen-library-settings-header = General settings for the library
+zen-library-settings-description = Choose which section opens when you use the library button in the sidebar.
+zen-library-default-section-label = Default section
+zen-library-default-section-downloads =
+    .label = Downloads
+zen-library-default-section-history =
+    .label = History
+zen-library-default-section-boosts =
+    .label = Boosts
+zen-library-default-section-spaces =
+    .label = Spaces
+zen-library-default-section-media =
+    .label = Media
+
 zen-glance-title = Glance
 zen-glance-header = General settings for glance
 zen-glance-description = Get a quick overview of your links without opening them in a new tab

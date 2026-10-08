@@ -560,6 +560,11 @@ Preferences.addAll([
     default: "float",
   },
   {
+    id: "zen.library.default-section",
+    type: "string",
+    default: "downloads",
+  },
+  {
     id: "zen.workspaces.separate-essentials",
     type: "bool",
     default: false,
