@@ -25,7 +25,7 @@ The `stable` branch may have hotfixes directly from the `stable` branch, and the
 
 # Local Development Setup
 
-Before you set up your local development environment, **read our [Building Guidelines](https://docs.zen-browser.app/guides/building)**. Skipping them can lead to avoidable build errors.
+Before you set up your local development environment, use `./scripts/run-macos.sh` or `./scripts/run-windows.ps1` for a guided first build, or follow the steps in the repository README. Skipping the documented setup can lead to avoidable build errors.
 
 # Code Of Conduct
 

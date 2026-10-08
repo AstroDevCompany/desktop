@@ -22,7 +22,7 @@
       "release": {
         "displayVersion": "1.23.1b",
         "github": {
-          "repo": "zen-browser/desktop"
+          "repo": "AstroDevCompany/desktop"
         },
         "archives": {
           "windows": "windows.mar",
@@ -42,7 +42,7 @@
       "release": {
         "displayVersion": "1.24t",
         "github": {
-          "repo": "zen-browser/desktop"
+          "repo": "AstroDevCompany/desktop"
         }
       }
     }
@@ -53,5 +53,5 @@
     ],
     "licenseType": "MPL-2.0"
   },
-  "updateHostname": "updates.zen-browser.app"
+  "updateHostname": "updates.peppermint.invalid"
 }

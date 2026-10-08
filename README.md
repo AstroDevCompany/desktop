@@ -3,50 +3,29 @@
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/.
    -->
-<!-- TODO: Get a job -->
-<img src="./docs/assets/zen-dark.svg" width="100px" align="left">
 
-### `Zen Browser`
+### Peppermint
 
-[![Downloads](https://img.shields.io/github/downloads/zen-browser/desktop/total.svg)](https://github.com/zen-browser/desktop/releases)
-[![Crowdin](https://badges.crowdin.net/zen-browser/localized.svg)](https://crowdin.com/project/zen-browser)
-[![Zen Release builds](https://github.com/zen-browser/desktop/actions/workflows/build.yml/badge.svg?branch=stable)](https://github.com/zen-browser/desktop/actions/workflows/build.yml)
-
-Zen is a firefox-based browser with the aim of pushing your productivity to a new level!
+Peppermint is a Firefox-based browser forked from [Zen Browser](https://github.com/zen-browser/desktop), focused on calm, productive browsing.
 
 <div flex="true">
-  <a href="https://zen-browser.app/download">
-    Download
+  <a href="https://github.com/AstroDevCompany/desktop">
+    Repository
   </a>
   •
-  <a href="https://zen-browser.app">
-    Website
-  </a>
-  •
-  <a href="https://docs.zen-browser.app">
-    Documentation
-  </a>
-  •
-  <a href="https://zen-browser.app/release-notes/latest">
-    Release Notes
+  <a href="https://github.com/AstroDevCompany/desktop/issues">
+    Issues
   </a>
 </div>
 
 ### Firefox Versions
 
-- [`Release`](https://zen-browser.app/download) - Is currently built using Firefox version `157.0.1`!
-- [`Twilight`](https://zen-browser.app/download?twilight) - Is currently built using Firefox version `RC 157.0.1`!
+Release builds track the Firefox version declared in [`surfer.json`](./surfer.json).
 
 ### Contributing
 
-If you'd like to report a bug, please do so on our [GitHub Issues page](https://github.com/zen-browser/desktop/issues/) and for feature requests, you can use [GitHub Discussions](https://github.com/zen-browser/desktop/discussions).
+Report bugs on [GitHub Issues](https://github.com/AstroDevCompany/desktop/issues). See [`docs/contribute.md`](./docs/contribute.md) for development setup.
 
-Zen is an open-source project, and we welcome contributions from the community! Please take a look at the [contribution guidelines](./docs/contribute.md) before getting started!
+### Upstream
 
-#### Partners
-
-Thanks to all the partners of Zen for their support and contributions:
-
-<a href="https://blacksmith.sh">
-  <img src="./docs/assets/blacksmith-yellow.png" width="350px"/>
-</a>
+This project imports changes from `zen-browser/desktop` via the sync workflow. Upstream issue links in code comments refer to the Zen repository.

@@ -147,7 +147,7 @@ zen-open-link-in-glance =
 
 zen-sidebar-notification-updated-heading = Update Complete!
 
-# See ZenSidebarNotification.mjs to see how these would be used
+# See PeppermintSidebarNotification.mjs to see how these would be used
 
 zen-sidebar-notification-updated-label = What's new in { -brand-short-name }
 zen-sidebar-notification-updated-tooltip =
