@@ -1,0 +1,7 @@
+- Suggest a clear commit message in chat after every implementation.
+- Ensure general OS stability after every build.
+- Focus on optimization when planning. Every implementation must consider the most efficient long-term options.
+- When planning fixes, never fix a single case, focus on fixing the general/broader issue, making sure any similar issues cannot happen again.
+- Each UI element should strictly follow the general design & color palette and support all existing themes.
+- Always keep the project well organized and structured.
+- Always close leftover terminals & processes when done.
