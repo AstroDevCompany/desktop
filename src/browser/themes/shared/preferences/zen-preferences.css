@@ -327,8 +327,8 @@ moz-page-nav-button[view="paneZenMarketplace"] {
 /* Disable mozilla's settings */
 
 #dataCollectionCategory,
-#dataCollectionGroup,
 #websiteAdvertisingCategory,
+setting-group[groupid="dataCollection"],
 #websiteAdvertisingGroup,
 #helpButton,
 #support-firefox,
