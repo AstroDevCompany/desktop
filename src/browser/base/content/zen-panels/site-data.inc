@@ -97,23 +97,15 @@
                  data-l10n-id="zen-site-data-adblock-reset"
                  hidden="true" />
         </hbox>
-        <hbox id="zen-site-data-adblock-levels">
-          <toolbarbutton id="zen-site-data-adblock-light"
-                         class="subviewbutton zen-adblock-level"
-                         data-level="light"
-                         closemenu="none"
-                         data-l10n-id="zen-site-data-adblock-light" />
-          <toolbarbutton id="zen-site-data-adblock-medium"
-                         class="subviewbutton zen-adblock-level"
-                         data-level="medium"
-                         closemenu="none"
-                         data-l10n-id="zen-site-data-adblock-medium" />
-          <toolbarbutton id="zen-site-data-adblock-heavy"
-                         class="subviewbutton zen-adblock-level"
-                         data-level="heavy"
-                         closemenu="none"
-                         data-l10n-id="zen-site-data-adblock-heavy" />
-        </hbox>
+        <menulist id="zen-site-data-adblock-level"
+                  class="zen-site-data-adblock-level"
+                  closemenu="none">
+          <menupopup>
+            <menuitem data-l10n-id="zen-site-data-adblock-light" value="light" />
+            <menuitem data-l10n-id="zen-site-data-adblock-medium" value="medium" />
+            <menuitem data-l10n-id="zen-site-data-adblock-heavy" value="heavy" />
+          </menupopup>
+        </menulist>
         <hbox id="zen-site-data-adblock-pause"
               class="permission-popup-permission-item"
               align="center"

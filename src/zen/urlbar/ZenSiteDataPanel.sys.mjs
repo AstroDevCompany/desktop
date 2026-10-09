@@ -18,6 +18,8 @@ ChromeUtils.defineESModuleGetters(lazy, {
 });
 
 export class nsZenSiteDataPanel {
+  #syncingAdblockLevelMenu = false;
+
   #iconMap = {
     install: "extension",
     "site-protection": "shield",
@@ -84,8 +86,8 @@ export class nsZenSiteDataPanel {
       .getElementById("zen-site-data-settings-more")
       .addEventListener("click", this);
     this.document
-      .getElementById("zen-site-data-adblock-levels")
-      .addEventListener("click", this);
+      .getElementById("zen-site-data-adblock-level")
+      .addEventListener("command", this);
     this.document
       .getElementById("zen-site-data-adblock-pause")
       .addEventListener("click", this);
@@ -264,13 +266,21 @@ export class nsZenSiteDataPanel {
     const spec = uri.spec;
     const override = gZenAdblock.getOverride(spec);
     const effective = gZenAdblock.getEffectiveLevel(spec);
-    for (const level of ["light", "medium", "heavy"]) {
-      const button = this.document.getElementById("zen-site-data-adblock-" + level);
-      if (effective === level) {
-        button.setAttribute("checked", "true");
-      } else {
-        button.removeAttribute("checked");
+    const globalLevel = gZenAdblock.getGlobalLevel();
+    const levelMenu = this.document.getElementById("zen-site-data-adblock-level");
+    const displayLevel =
+      effective === "light" || effective === "medium" || effective === "heavy"
+        ? effective
+        : globalLevel;
+    this.#syncingAdblockLevelMenu = true;
+    try {
+      if (levelMenu.value !== displayLevel) {
+        levelMenu.value = displayLevel;
       }
+      levelMenu.disabled =
+        gZenAdblock.isUblockActive() || effective === "off";
+    } finally {
+      this.#syncingAdblockLevelMenu = false;
     }
 
     const reset = this.document.getElementById("zen-site-data-adblock-reset");
@@ -1002,11 +1012,6 @@ export class nsZenSiteDataPanel {
   }
 
   #onClickEvent(event) {
-    const levelButton = event.target.closest?.(".zen-adblock-level");
-    if (levelButton) {
-      this.#onAdblockLevel(levelButton.getAttribute("data-level"));
-      return;
-    }
     if (event.target.closest?.("#zen-site-data-adblock-pause")) {
       this.#onAdblockPause();
       return;
@@ -1061,6 +1066,12 @@ export class nsZenSiteDataPanel {
         this.#onClickEvent(event);
         break;
       case "command":
+        if (event.target?.id === "zen-site-data-adblock-level") {
+          if (!this.#syncingAdblockLevelMenu) {
+            this.#onAdblockLevel(event.target.value);
+          }
+          break;
+        }
         this.#onCommandEvent(event);
         break;
       case "popupshowing":

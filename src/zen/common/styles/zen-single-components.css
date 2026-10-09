@@ -402,13 +402,9 @@
   }
 }
 
-#zen-site-data-adblock-levels {
-  gap: 4px;
-}
-
-.zen-adblock-level[checked] {
-  font-weight: 700;
-  background-color: color-mix(in srgb, currentColor 14%, transparent);
+#zen-site-data-adblock-level {
+  width: 100%;
+  margin-block: 2px 4px;
 }
 
 #zen-site-data-adblock-count {
