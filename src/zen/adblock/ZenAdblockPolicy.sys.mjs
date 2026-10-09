@@ -7,6 +7,7 @@ import {
   Request,
 } from "resource:///modules/zen/adblock/vendor/adblocker.mjs";
 import { matchesBootstrapHost } from "resource:///modules/zen/adblock/ZenAdblockLists.sys.mjs";
+import { isVideoAdRequest } from "resource:///modules/zen/adblock/ZenAdblockVideo.sys.mjs";
 
 export const ADBLOCK_LEVELS = ["light", "medium", "heavy"];
 
@@ -104,6 +105,10 @@ function hostnameOf(url) {
 export function decideNetworkRequest({ engine, level, url, sourceUrl, type }) {
   if (!level || level === "off") {
     return { action: "allow" };
+  }
+
+  if (isVideoAdRequest(url)) {
+    return { action: "cancel", reason: "video-ad" };
   }
 
   if (!engine) {

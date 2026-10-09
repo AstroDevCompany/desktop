@@ -2,6 +2,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import { VIDEO_PAGE_HOOK } from "resource:///modules/zen/adblock/ZenAdblockVideo.sys.mjs";
+
 const lazy = {};
 
 ChromeUtils.defineESModuleGetters(lazy, {
@@ -12,18 +14,34 @@ ChromeUtils.defineESModuleGetters(lazy, {
 
 const STYLE_ID = "zen-adblock-css";
 const SCAN_LIMIT = 2000;
+const compiledScripts = new Map();
+
+function compilePageScript(code) {
+  let pending = compiledScripts.get(code);
+  if (!pending) {
+    pending = ChromeUtils.compileScript(
+      "data:text/javascript," + encodeURIComponent(code),
+      { filename: "zen-adblock-scriptlet.js" }
+    );
+    compiledScripts.set(code, pending);
+  }
+  return pending;
+}
+
+compilePageScript(VIDEO_PAGE_HOOK);
 
 export class ZenAdblockChild extends JSWindowActorChild {
   #style = null;
   #observer = null;
   #timer = 0;
-  #scriptsInjected = false;
+  #injectedScripts = new Set();
   #destroyed = false;
   #applying = false;
   #pending = false;
 
   handleEvent(event) {
     if (
+      event.type === "DOMWindowCreated" ||
       event.type === "DOMDocElementInserted" ||
       event.type === "DOMContentLoaded" ||
       event.type === "pageshow"
@@ -114,10 +132,14 @@ export class ZenAdblockChild extends JSWindowActorChild {
       }
       this.#applyStyles(result.styles);
       this.#applyExtended(result.extended);
-      if (!this.#scriptsInjected && result.scripts?.length) {
-        this.#scriptsInjected = true;
+      if (result.scripts?.length) {
         for (const script of result.scripts) {
-          this.#injectScript(script);
+          if (!script || this.#injectedScripts.has(script)) {
+            continue;
+          }
+          if (await this.#injectScript(script)) {
+            this.#injectedScripts.add(script);
+          }
         }
       }
       this.#watch();
@@ -218,26 +240,25 @@ export class ZenAdblockChild extends JSWindowActorChild {
     }
   }
 
-  #injectScript(code) {
+  async #injectScript(code) {
     const win = this.contentWindow;
     if (!win || !code) {
       return;
     }
     try {
-      const sandbox = Cu.Sandbox(win, {
-        sandboxPrototype: win,
-        wantXrays: false,
-        sameZoneAs: win,
-      });
-      Cu.evalInSandbox(
-        "try{" + code + "}catch(e){}",
-        sandbox,
-        "latest",
-        "zen-adblock-scriptlet.js",
-        1
-      );
+      const script = await compilePageScript(code);
+      if (this.#destroyed || this.contentWindow !== win) {
+        return false;
+      }
+      try {
+        script.executeInGlobal(win);
+      } catch (error) {
+        console.error("ZenAdblock scriptlet failed", error);
+      }
+      return true;
     } catch (error) {
       console.error("ZenAdblock scriptlet failed", error);
+      return false;
     }
   }
 }

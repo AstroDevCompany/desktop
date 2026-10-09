@@ -21,6 +21,11 @@ ChromeUtils.defineESModuleGetters(lazy, {
   UPDATE_INTERVAL_MS: "resource:///modules/zen/adblock/ZenAdblockLists.sys.mjs",
   UBLOCK_ORIGIN_ID: "resource:///modules/zen/adblock/ZenAdblockLists.sys.mjs",
   hashString: "resource:///modules/zen/adblock/ZenAdblockLists.sys.mjs",
+  needsVideoPageHook: "resource:///modules/zen/adblock/ZenAdblockVideo.sys.mjs",
+  shouldRewriteVideoAdResponse:
+    "resource:///modules/zen/adblock/ZenAdblockVideo.sys.mjs",
+  VIDEO_PAGE_HOOK: "resource:///modules/zen/adblock/ZenAdblockVideo.sys.mjs",
+  VideoAdStreamListener: "resource:///modules/zen/adblock/ZenAdblockVideo.sys.mjs",
 });
 
 const PREF_ENABLED = "zen.adblock.enabled";
@@ -88,6 +93,8 @@ class ZenAdblockManager {
       onUninstalled: addon => this.#onAddonEvent(addon, true),
     };
     Services.obs.addObserver(this, "http-on-modify-request");
+    Services.obs.addObserver(this, "http-on-examine-response");
+    Services.obs.addObserver(this, "http-on-examine-cached-response");
     Services.prefs.addObserver(PREF_ENABLED, this);
     Services.prefs.addObserver(PREF_LEVEL, this);
     Services.prefs.addObserver(PREF_CUSTOM, this);
@@ -108,6 +115,17 @@ class ZenAdblockManager {
         this.#onModifyRequest(subject.QueryInterface(Ci.nsIHttpChannel));
       } catch (error) {
         console.error("ZenAdblock request failed", error);
+      }
+      return;
+    }
+    if (
+      topic === "http-on-examine-response" ||
+      topic === "http-on-examine-cached-response"
+    ) {
+      try {
+        this.#maybeRewriteVideoResponse(subject);
+      } catch (error) {
+        console.error("ZenAdblock video rewrite failed", error);
       }
       return;
     }
@@ -259,6 +277,14 @@ class ZenAdblockManager {
       const engine = this.#engines[level];
       if (!engine) {
         this.ensureEngine(level);
+        if (lazy.needsVideoPageHook(data.url)) {
+          return {
+            active: true,
+            styles: "",
+            scripts: [lazy.VIDEO_PAGE_HOOK],
+            extended: [],
+          };
+        }
         return INACTIVE_COSMETICS;
       }
       const result = engine.getCosmeticsFilters({
@@ -278,10 +304,14 @@ class ZenAdblockManager {
           extended = [];
         }
       }
+      const scripts = level === "light" ? [] : (result.scripts || []).slice();
+      if (lazy.needsVideoPageHook(data.url)) {
+        scripts.unshift(lazy.VIDEO_PAGE_HOOK);
+      }
       return {
         active: true,
         styles: result.styles || "",
-        scripts: level === "light" ? [] : result.scripts || [],
+        scripts,
         extended,
       };
     } catch (error) {
@@ -430,6 +460,46 @@ class ZenAdblockManager {
         return response.text();
       })
       .finally(() => lazy.clearTimeout(timer));
+  }
+
+  #maybeRewriteVideoResponse(subject) {
+    if (!this.isEnabled()) {
+      return;
+    }
+    let channel;
+    try {
+      channel = subject.QueryInterface(Ci.nsIHttpChannel);
+    } catch {
+      return;
+    }
+    if (channel.responseStatus !== 200) {
+      return;
+    }
+    let spec = "";
+    let contentType = "";
+    try {
+      spec = channel.URI.spec;
+      contentType = channel.contentType || "";
+    } catch {
+      return;
+    }
+    if (!lazy.shouldRewriteVideoAdResponse(spec, contentType)) {
+      return;
+    }
+    const pageUrl = this.#pageUrl(channel) || spec;
+    if (this.getEffectiveLevel(pageUrl) === "off") {
+      return;
+    }
+    try {
+      const length = channel.getResponseHeader("Content-Length");
+      if (length && Number(length) > 8 * 1024 * 1024) {
+        return;
+      }
+    } catch {
+      // Chunked responses omit Content-Length.
+    }
+    channel.QueryInterface(Ci.nsITraceableChannel);
+    new lazy.VideoAdStreamListener(channel);
   }
 
   #onModifyRequest(channel) {

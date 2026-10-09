@@ -84,6 +84,7 @@ if (!Services.appinfo.inSafeMode) {
     child: {
       esModuleURI: "resource:///actors/ZenAdblockChild.sys.mjs",
       events: {
+        DOMWindowCreated: {},
         DOMDocElementInserted: {},
         DOMContentLoaded: {},
         pageshow: {},

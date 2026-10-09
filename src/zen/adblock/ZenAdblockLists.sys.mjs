@@ -62,6 +62,8 @@ const BOOTSTRAP_HOSTS = [
   "advertising.com",
   "2mdn.net",
   "adform.net",
+  "imasdk.googleapis.com",
+  "dmxleo.dailymotion.com",
   "smartadserver.com",
   "serving-sys.com",
 ];

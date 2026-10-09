@@ -6,6 +6,10 @@
 const { decideNetworkRequest, parseFilterList } = ChromeUtils.importESModule(
   "resource:///modules/zen/adblock/ZenAdblockPolicy.sys.mjs"
 );
+const { isVideoAdRequest, rewriteVideoAdBody, shouldRewriteVideoAdResponse } =
+  ChromeUtils.importESModule(
+    "resource:///modules/zen/adblock/ZenAdblockVideo.sys.mjs"
+  );
 const { gZenAdblock } = ChromeUtils.importESModule(
   "resource:///modules/zen/adblock/ZenAdblockManager.sys.mjs"
 );
@@ -114,6 +118,66 @@ add_task(function test_bootstrap_list_before_engine_is_ready() {
     type: "script",
   });
   Assert.equal(allowed.action, "allow");
+});
+
+add_task(function test_video_ad_requests_and_player_payloads() {
+  const pagead = decideNetworkRequest({
+    engine: null,
+    level: "medium",
+    url: "https://www.youtube.com/pagead/interaction",
+    sourceUrl: "https://www.youtube.com/watch?v=abc",
+    type: "xmlhttprequest",
+  });
+  Assert.equal(pagead.action, "cancel");
+  Assert.equal(pagead.reason, "video-ad");
+
+  const playback = decideNetworkRequest({
+    engine: null,
+    level: "medium",
+    url: "https://rr3---sn.googlevideo.com/videoplayback?id=1",
+    sourceUrl: "https://www.youtube.com/watch?v=abc",
+    type: "media",
+  });
+  Assert.equal(playback.action, "allow", "video playback is not treated as an ad");
+
+  const ima = decideNetworkRequest({
+    engine: null,
+    level: "light",
+    url: "https://imasdk.googleapis.com/js/sdkloader/ima3.js",
+    sourceUrl: "https://news.example/",
+    type: "script",
+  });
+  Assert.equal(ima.action, "cancel");
+  Assert.equal(ima.reason, "video-ad");
+
+  ok(isVideoAdRequest("https://www.youtube.com/api/stats/ads?ver=2"));
+  ok(!isVideoAdRequest("https://www.youtube.com/watch?v=abc"));
+  ok(
+    shouldRewriteVideoAdResponse(
+      "https://www.youtube.com/youtubei/v1/player?prettyPrint=false",
+      "application/json"
+    )
+  );
+  ok(
+    !shouldRewriteVideoAdResponse(
+      "https://www.youtube.com/watch?v=abc",
+      "text/html"
+    ),
+    "the watch document is left intact so player code keeps its property names"
+  );
+  Assert.equal(
+    rewriteVideoAdBody('{"adPlacements":[],"adSlots":[],"playerAds":{}}'),
+    '{"no_ads":[],"no_ads":[],"no_ads":{}}'
+  );
+
+  const paused = decideNetworkRequest({
+    engine: null,
+    level: "off",
+    url: "https://www.youtube.com/pagead/interaction",
+    sourceUrl: "https://www.youtube.com/watch?v=abc",
+    type: "xmlhttprequest",
+  });
+  Assert.equal(paused.action, "allow", "per-site off still allows video ad URLs");
 });
 
 add_task(function test_per_site_override_uses_base_domain() {
