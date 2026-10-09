@@ -77,6 +77,23 @@ if (!Services.appinfo.inSafeMode) {
     remoteTypes: ["web", "file"],
     enablePreference: "zen.boosts.enabled",
   };
+  JSWINDOWACTORS.ZenAdblock = {
+    parent: {
+      esModuleURI: "resource:///actors/ZenAdblockParent.sys.mjs",
+    },
+    child: {
+      esModuleURI: "resource:///actors/ZenAdblockChild.sys.mjs",
+      events: {
+        DOMDocElementInserted: {},
+        DOMContentLoaded: {},
+        pageshow: {},
+      },
+    },
+    safeForUntrustedWebProcess: true,
+    allFrames: true,
+    remoteTypes: ["web", "file"],
+    enablePreference: "zen.adblock.enabled",
+  };
 }
 
 export let gZenActorsManager = {

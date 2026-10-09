@@ -19,6 +19,13 @@ class ZenStartup {
   init() {
     this.openWatermark();
     this.#zenInitBrowserLayout();
+    try {
+      ChromeUtils.importESModule(
+        "resource:///modules/zen/adblock/ZenAdblockManager.sys.mjs"
+      ).gZenAdblock.init();
+    } catch (error) {
+      console.error("ZenAdblock failed to start", error);
+    }
   }
 
   get #shouldUseWatermark() {

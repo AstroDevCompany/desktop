@@ -14,7 +14,7 @@
     "prebuild:ui": "python3 scripts/update_en_US_packs.py",
     "start": "cd engine && python3 ./mach run --noprofile",
     "start:bloat": "XPCOM_MEM_BLOAT_LOG=1 npm start",
-    "import": "npm run ffprefs && npm run import:dumps && surfer import && python3 scripts/update_en_US_packs.py",
+    "import": "npm run ffprefs && npm run import:dumps && node scripts/reset-preferences-before-import.mjs && surfer import && python3 scripts/update_en_US_packs.py",
     "import:dumps": "python3 scripts/update_service_dumps.py",
     "export": "surfer export",
     "init": "npm run download && npm run import && npm run bootstrap",

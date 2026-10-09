@@ -87,6 +87,47 @@
           <!-- settings will be inserted here -->
         </vbox>
       </vbox>
+      <vbox id="zen-site-data-adblock-section" class="zen-site-data-section">
+        <hbox class="zen-site-data-section-header">
+          <label flex="1">
+            <html:span data-l10n-id="zen-site-data-adblock"></html:span>
+            <html:span id="zen-site-data-adblock-count"></html:span>
+          </label>
+          <label id="zen-site-data-adblock-reset"
+                 data-l10n-id="zen-site-data-adblock-reset"
+                 hidden="true" />
+        </hbox>
+        <hbox id="zen-site-data-adblock-levels">
+          <toolbarbutton id="zen-site-data-adblock-light"
+                         class="subviewbutton zen-adblock-level"
+                         data-level="light"
+                         closemenu="none"
+                         data-l10n-id="zen-site-data-adblock-light" />
+          <toolbarbutton id="zen-site-data-adblock-medium"
+                         class="subviewbutton zen-adblock-level"
+                         data-level="medium"
+                         closemenu="none"
+                         data-l10n-id="zen-site-data-adblock-medium" />
+          <toolbarbutton id="zen-site-data-adblock-heavy"
+                         class="subviewbutton zen-adblock-level"
+                         data-level="heavy"
+                         closemenu="none"
+                         data-l10n-id="zen-site-data-adblock-heavy" />
+        </hbox>
+        <hbox id="zen-site-data-adblock-pause"
+              class="permission-popup-permission-item"
+              align="center"
+              role="group">
+          <toolbarbutton class="permission-popup-permission-icon zen-site-data-permission-icon zen-permission-shield-icon"
+                         closemenu="none" />
+          <vbox flex="1" class="permission-popup-permission-label-container" align="start">
+            <label class="permission-popup-permission-label"
+                   data-l10n-id="zen-site-data-adblock-pause" />
+            <label id="zen-site-data-adblock-pause-state"
+                   class="zen-permission-popup-permission-state-label" />
+          </vbox>
+        </hbox>
+      </vbox>
       <vbox class="zen-site-data-section">
         <hbox class="zen-site-data-section-header">
           <label data-l10n-id="zen-site-data-settings" flex="1" />

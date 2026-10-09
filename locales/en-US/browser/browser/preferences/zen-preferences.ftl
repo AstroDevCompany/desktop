@@ -14,6 +14,10 @@ pane-zen-spaces-tabs-title = Spaces & tabs
 category-zen-spaces-tabs =
     .tooltiptext = { pane-zen-spaces-tabs-title }
 
+pane-zen-adblock-title = Ad blocking
+category-zen-adblock =
+    .tooltiptext = { pane-zen-adblock-title }
+
 pane-zen-shortcuts-title = Shortcuts
 category-zen-shortcuts =
     .tooltiptext = { pane-zen-shortcuts-title }
@@ -197,6 +201,29 @@ zen-urlbar-behavior-floating-on-type =
     .label = Floating only when typing
 zen-urlbar-behavior-float =
     .label = Always floating
+
+zen-adblock-section-title = Ad blocking
+zen-adblock-header = Ad blocking
+zen-adblock-description = Choose how aggressively { -brand-short-name } blocks ads and trackers. Medium is the default. You can override it for a single site from the site panel.
+zen-adblock-enabled =
+    .label = Block ads and trackers
+zen-adblock-level-label = Blocking level
+zen-adblock-level-light =
+    .label = Light
+zen-adblock-level-medium =
+    .label = Medium
+zen-adblock-level-heavy =
+    .label = Heavy
+zen-adblock-level-light-description = Light blocks classic ad networks and hides obvious ad slots, and leaves the rest of the page alone.
+zen-adblock-level-medium-description = Medium adds tracker lists, cosmetic filters, and scriptlets. Third-party scripts stay allowed unless a filter blocks them.
+zen-adblock-level-heavy-description = Heavy also hides cookie notices and social widgets, and blocks third-party scripts and frames unless a filter explicitly allows them.
+zen-adblock-ubo-note = uBlock Origin is enabled, so the built-in blocker stays idle. Disable that extension to use these levels.
+zen-adblock-custom-header = Custom filters
+zen-adblock-custom-description = Extra filter rules, one per line, applied on top of the selected level.
+zen-adblock-save-custom =
+    .label = Save filters
+zen-adblock-update-lists =
+    .label = Update lists now
 
 pane-zen-CKS-title = Shortcuts
 category-zen-CKS =

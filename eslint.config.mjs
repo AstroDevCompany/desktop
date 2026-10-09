@@ -97,7 +97,11 @@ let config = [
   },
   {
     name: "ignores",
-    ignores: [...globalIgnores, "src/zen/vendor/*"],
+    ignores: [
+      ...globalIgnores,
+      "src/zen/vendor/*",
+      "src/zen/adblock/vendor/**",
+    ],
   },
   {
     name: "all-files",

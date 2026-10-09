@@ -1,0 +1,53 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+<html:template id="template-paneZenAdblock">
+
+<hbox id="zenAdblockCategory"
+      class="subcategory"
+      hidden="true"
+      data-category="paneZenAdblock">
+<html:h1 data-l10n-id="zen-adblock-section-title"/>
+</hbox>
+
+<groupbox id="zenAdblockGroup" data-category="paneZenAdblock" hidden="true" class="highlighting-group">
+      <label><html:h2 data-l10n-id="zen-adblock-header"/></label>
+      <description class="description-deemphasized" data-l10n-id="zen-adblock-description" />
+
+      <checkbox id="zenAdblockEnabled"
+                data-l10n-id="zen-adblock-enabled"
+                preference="zen.adblock.enabled"/>
+
+      <hbox align="center">
+            <label data-l10n-id="zen-adblock-level-label"/>
+            <menulist id="zenAdblockLevel" preference="zen.adblock.level">
+                  <menupopup>
+                        <menuitem data-l10n-id="zen-adblock-level-light" value="light"/>
+                        <menuitem data-l10n-id="zen-adblock-level-medium" value="medium"/>
+                        <menuitem data-l10n-id="zen-adblock-level-heavy" value="heavy"/>
+                  </menupopup>
+            </menulist>
+      </hbox>
+
+      <description class="description-deemphasized" data-l10n-id="zen-adblock-level-light-description" />
+      <description class="description-deemphasized" data-l10n-id="zen-adblock-level-medium-description" />
+      <description class="description-deemphasized" data-l10n-id="zen-adblock-level-heavy-description" />
+
+      <description id="zenAdblockUboNote"
+                   class="description-deemphasized"
+                   data-l10n-id="zen-adblock-ubo-note"
+                   hidden="true" />
+
+      <label><html:h2 data-l10n-id="zen-adblock-custom-header"/></label>
+      <description class="description-deemphasized" data-l10n-id="zen-adblock-custom-description" />
+      <hbox>
+            <html:textarea id="zenAdblockCustomRules" rows="6" style="width: 100%;"></html:textarea>
+      </hbox>
+      <hbox>
+            <button id="zenAdblockSaveCustom" data-l10n-id="zen-adblock-save-custom"/>
+            <button id="zenAdblockUpdateLists" data-l10n-id="zen-adblock-update-lists"/>
+      </hbox>
+</groupbox>
+
+</html:template>

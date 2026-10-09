@@ -13,6 +13,7 @@ const lazy = {};
 
 ChromeUtils.defineESModuleGetters(lazy, {
   FeatureCallout: "resource:///modules/asrouter/FeatureCallout.sys.mjs",
+  gZenAdblock: "resource:///modules/zen/adblock/ZenAdblockManager.sys.mjs",
   gZenBoostsManager: "resource:///modules/zen/boosts/ZenBoostsManager.sys.mjs",
 });
 
@@ -81,6 +82,15 @@ export class nsZenSiteDataPanel {
       .addEventListener("click", this);
     this.document
       .getElementById("zen-site-data-settings-more")
+      .addEventListener("click", this);
+    this.document
+      .getElementById("zen-site-data-adblock-levels")
+      .addEventListener("click", this);
+    this.document
+      .getElementById("zen-site-data-adblock-pause")
+      .addEventListener("click", this);
+    this.document
+      .getElementById("zen-site-data-adblock-reset")
       .addEventListener("click", this);
     this.anchor.addEventListener("click", this);
     const kCommandIDs = [
@@ -234,10 +244,105 @@ export class nsZenSiteDataPanel {
   #preparePanel() {
     this.#resetSiteOptionsList();
     this.#setSiteBoost();
+    this.#setAdblock();
     this.#setSitePermissions();
     this.#setSiteSecurityInfo();
     this.#setSiteHeader();
     this.#setAddonsOverflow();
+  }
+
+  #setAdblock() {
+    const section = this.document.getElementById("zen-site-data-adblock-section");
+    const uri = this.window.gBrowser.currentURI;
+    const http = uri.schemeIs("http") || uri.schemeIs("https");
+    section.hidden = !http;
+    if (!http) {
+      return;
+    }
+
+    const { gZenAdblock } = lazy;
+    const spec = uri.spec;
+    const override = gZenAdblock.getOverride(spec);
+    const effective = gZenAdblock.getEffectiveLevel(spec);
+    for (const level of ["light", "medium", "heavy"]) {
+      const button = this.document.getElementById("zen-site-data-adblock-" + level);
+      if (effective === level) {
+        button.setAttribute("checked", "true");
+      } else {
+        button.removeAttribute("checked");
+      }
+    }
+
+    const reset = this.document.getElementById("zen-site-data-adblock-reset");
+    reset.hidden = !override;
+
+    const count = this.document.getElementById("zen-site-data-adblock-count");
+    if (gZenAdblock.isUblockActive()) {
+      this.document.l10n.setAttributes(count, "zen-site-data-adblock-ubo");
+    } else {
+      this.document.l10n.setAttributes(count, "zen-site-data-adblock-count", {
+        count: gZenAdblock.getBlockedCount(this.window.gBrowser.selectedBrowser),
+      });
+    }
+
+    const pause = this.document.getElementById("zen-site-data-adblock-pause");
+    const paused = effective === "off";
+    pause.setAttribute("state", paused ? "block" : "allow");
+    this.document.l10n.setAttributes(
+      this.document.getElementById("zen-site-data-adblock-pause-state"),
+      paused ? "zen-site-data-adblock-paused" : "zen-site-data-adblock-on"
+    );
+  }
+
+  #onAdblockLevel(level) {
+    if (level !== "light" && level !== "medium" && level !== "heavy") {
+      return;
+    }
+    const { gBrowser } = this.window;
+    const spec = gBrowser.currentURI.spec;
+    const { gZenAdblock } = lazy;
+    const globalLevel = gZenAdblock.getGlobalLevel();
+    const override = gZenAdblock.getOverride(spec);
+    if (level === globalLevel) {
+      if (!override) {
+        return;
+      }
+      gZenAdblock.setOverride(spec, null);
+    } else if (override === level) {
+      return;
+    } else {
+      gZenAdblock.setOverride(spec, level);
+    }
+    this.#setAdblock();
+    this.#reloadCurrentPage();
+  }
+
+  #onAdblockPause() {
+    const spec = this.window.gBrowser.currentURI.spec;
+    const { gZenAdblock } = lazy;
+    const override = gZenAdblock.getOverride(spec);
+    gZenAdblock.setOverride(spec, override === "off" ? null : "off");
+    this.#setAdblock();
+    this.#reloadCurrentPage();
+  }
+
+  #onAdblockReset() {
+    const spec = this.window.gBrowser.currentURI.spec;
+    const { gZenAdblock } = lazy;
+    if (!gZenAdblock.getOverride(spec)) {
+      return;
+    }
+    gZenAdblock.setOverride(spec, null);
+    this.#setAdblock();
+    this.#reloadCurrentPage();
+  }
+
+  #reloadCurrentPage() {
+    try {
+      this.window.gBrowser.selectedBrowser.reload();
+    } catch {
+      // The current page may not be reloadable.
+    }
   }
 
   #setSiteBoost() {
@@ -897,12 +1002,25 @@ export class nsZenSiteDataPanel {
   }
 
   #onClickEvent(event) {
+    const levelButton = event.target.closest?.(".zen-adblock-level");
+    if (levelButton) {
+      this.#onAdblockLevel(levelButton.getAttribute("data-level"));
+      return;
+    }
+    if (event.target.closest?.("#zen-site-data-adblock-pause")) {
+      this.#onAdblockPause();
+      return;
+    }
     const id = event.target.id;
     switch (id) {
       case "zen-site-data-manage-addons": {
         const { BrowserAddonUI } = this.window;
         BrowserAddonUI.openAddonsMgr("addons://list/extension");
         this.unifiedPanel.hidePopup();
+        break;
+      }
+      case "zen-site-data-adblock-reset": {
+        this.#onAdblockReset();
         break;
       }
       case "zen-site-data-settings-more": {

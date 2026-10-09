@@ -525,6 +525,28 @@ var gZenCKSSettings = {
   },
 };
 
+var gZenAdblockSettings = {
+  init() {
+    const { gZenAdblock } = ChromeUtils.importESModule(
+      "resource:///modules/zen/adblock/ZenAdblockManager.sys.mjs"
+    );
+    const note = document.getElementById("zenAdblockUboNote");
+    if (note) {
+      note.hidden = !gZenAdblock.isUblockActive();
+    }
+    const custom = document.getElementById("zenAdblockCustomRules");
+    if (custom) {
+      custom.value = gZenAdblock.getCustomRules();
+    }
+    document.getElementById("zenAdblockSaveCustom")?.addEventListener("command", () => {
+      gZenAdblock.setCustomRules(custom.value);
+    });
+    document.getElementById("zenAdblockUpdateLists")?.addEventListener("command", () => {
+      gZenAdblock.updateListsNow();
+    });
+  },
+};
+
 Preferences.addAll([
   {
     id: "zen.view.compact.toolbar-flash-popup",
@@ -635,6 +657,16 @@ Preferences.addAll([
     id: "zen.window-sync.sync-only-pinned-tabs",
     type: "bool",
     default: false,
+  },
+  {
+    id: "zen.adblock.enabled",
+    type: "bool",
+    default: true,
+  },
+  {
+    id: "zen.adblock.level",
+    type: "string",
+    default: "medium",
   },
 ]);
 
