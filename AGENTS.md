@@ -5,3 +5,5 @@
 - Each UI element should strictly follow the general design & color palette and support all existing themes.
 - Always keep the project well organized and structured.
 - Always close leftover terminals & processes when done.
+- When done implementing a change, always run "npm run import" to look for possible errors and fix them.
+- Never blindly replace local files with the upstream without explicit per-file consent.
