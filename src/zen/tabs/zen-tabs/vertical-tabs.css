@@ -943,6 +943,13 @@ zen-library {
   }
 }
 
+@media not -moz-pref("zen.splitView.show-tab-split-button", true) {
+  .tab-split-button {
+    display: none !important;
+    visibility: collapse !important;
+  }
+}
+
 .tab-reset-button,
 .tab-reset-pin-button,
 .tab-split-button,

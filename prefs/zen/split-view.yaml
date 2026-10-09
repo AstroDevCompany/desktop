@@ -8,6 +8,9 @@
 - name: zen.splitView.enable-tab-click-split
   value: true
 
+- name: zen.splitView.show-tab-split-button
+  value: true
+
 - name: zen.splitView.min-resize-width
   value: 7
 

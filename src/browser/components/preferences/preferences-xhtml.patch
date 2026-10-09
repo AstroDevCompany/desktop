@@ -37,7 +37,7 @@ index bb84d15bec4008ae48324a950a4d5ba7bec1d010..48b917a3ccdcbe3d368e3fd139ab5091
 +      </html:moz-page-nav-button>
 +      <html:moz-page-nav-button id="category-zen-adblock"
 +        view="paneZenAdblock"
-+        iconsrc="chrome://browser/skin/zen-icons/nucleo/tracking-protection-fill.svg"
++        iconsrc="chrome://browser/skin/zen-icons/tracking-protection-fill.svg"
 +        data-l10n-id="pane-zen-adblock-title">
 +      </html:moz-page-nav-button>
        <html:moz-page-nav-button id="category-sync"

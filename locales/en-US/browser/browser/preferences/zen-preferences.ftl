@@ -31,6 +31,7 @@ zen-tab-switching-header = Tab switching behavior
 zen-tab-switching-description = Control how tabs are selected when you close tabs or cycle with Ctrl+Tab.
 zen-pinned-essentials-section-title = Pinned tabs & essentials
 zen-glance-section-title = Link preview
+zen-split-view-settings-section-title = Split view
 
 zen-settings-spaces-sync-footer =
     Workspace sync is managed in your Mozilla account settings.
@@ -81,6 +82,11 @@ zen-glance-trigger-shift-click =
     .label = Shift + Click
 zen-glance-trigger-meta-click =
     .label = Meta (Command) + Click
+
+zen-split-view-settings-header = Split view
+zen-split-view-settings-description = Control how split view appears in the tab strip.
+zen-split-view-show-tab-split-button =
+    .label = Show split view button on tabs
 
 zen-look-and-feel-compact-view-header = Show in compact view
 zen-look-and-feel-compact-view-description = Only show the toolbars you use!

@@ -220,11 +220,15 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
        ) {
          if (this.activeMediaBlocked) {
            if (this.multiselected) {
-@@ -661,7 +727,13 @@
+@@ -661,7 +731,17 @@
         return;
       }
 
-+      if (!event.getModifierState("Accel") && event.target.classList.contains("tab-split-button")) {
++      if (
++        !event.getModifierState("Accel") &&
++        event.target.classList.contains("tab-split-button") &&
++        Services.prefs.getBoolPref("zen.splitView.show-tab-split-button", true)
++      ) {
 +        gZenViewSplitter.contextSplitTabs(null, this);
 +        gBrowser.tabContainer._blockDblClick = true;
 +        return;
@@ -235,7 +239,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
          if (this.multiselected) {
            gBrowser.removeMultiSelectedTabs({
              metricsContext: lazy.TabMetrics.userTriggeredContext(
-@@ -681,6 +746,14 @@
+@@ -681,6 +750,14 @@
          // (see tabbrowser-tabs 'click' handler).
          gBrowser.tabContainer._blockDblClick = true;
        }
@@ -250,7 +254,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
      }
  
      on_dblclick(event) {
-@@ -707,6 +780,8 @@
+@@ -707,6 +784,8 @@
              lazy.TabMetrics.METRIC_SOURCE.TAB_STRIP
            ),
          });
