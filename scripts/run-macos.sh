@@ -131,40 +131,170 @@ path_on_external_disk() {
   [[ "$target_dev" != "$root_dev" ]]
 }
 
-# Incremental builds on external volumes often leave XUL unsigned while macOS
-# still expects a valid signature (SIGKILL / CODESIGNING Invalid Page).
-resign_macos_app_if_needed() {
+# ExFAT volumes often accumulate AppleDouble "._*" files that break ad-hoc codesign.
+strip_appledouble_metadata() {
+  local dir="$1"
+  find "$dir" -name '._*' -delete 2>/dev/null || true
+}
+
+# UI-only builds refresh dist/bin first; keep the .app MacOS copy in sync before launch.
+sync_macos_from_dist_bin() {
   local zen_bin="$1"
-  local app_dir macos_dir binary signed=0 failed=0
-  app_dir="$(cd "$(dirname "$zen_bin")/../.." && pwd)"
-  macos_dir="$app_dir/Contents/MacOS"
-  [[ -d "$macos_dir" ]] || return 0
-
-  if ! path_on_external_disk "$macos_dir"; then
-    return 0
-  fi
-
-  log "External build volume detected; re-signing dev binaries before launch"
-  for binary in XUL zen libmozglue.dylib; do
-    if [[ ! -f "$macos_dir/$binary" ]]; then
+  local macos_dir dist_bin f
+  macos_dir="$(dirname "$zen_bin")"
+  dist_bin="$(cd "$macos_dir/../../.." && pwd)/bin"
+  [[ -d "$dist_bin" ]] || return 0
+  for f in XUL zen libmozglue.dylib libnss3.dylib libmozavutil.dylib libmozavcodec.dylib liblgpllibs.dylib; do
+    if [[ ! -f "$dist_bin/$f" ]]; then
       continue
     fi
-    if codesign -f -s - "$macos_dir/$binary"; then
-      signed=$((signed + 1))
-    else
-      echo "Warning: could not re-sign $binary" >&2
-      failed=$((failed + 1))
+    if [[ "$f" == "XUL" ]] && [[ -L "$dist_bin/$f" || -L "$macos_dir/$f" ]]; then
+      continue
     fi
+    cp -f "$dist_bin/$f" "$macos_dir/$f" 2>/dev/null || true
   done
-  if [[ "$signed" -eq 0 ]]; then
-    echo "Warning: no binaries were re-signed; the app may crash on launch." >&2
-  elif [[ "$failed" -gt 0 ]]; then
-    echo "Warning: some binaries failed to re-sign ($failed)." >&2
+}
+
+# Interrupted "mach build" can leave a truncated XUL; dlopen fails with rebase opcode errors.
+xul_binary_is_loadable() {
+  local xul="$1"
+  local dist_bin="${2:-}"
+  [[ -e "$xul" ]] || return 1
+  if [[ -L "$xul" ]]; then
+    xul="$(readlink -f "$xul" 2>/dev/null || readlink "$xul")"
+  fi
+  DYLD_LIBRARY_PATH="$dist_bin" python3 - "$xul" "$dist_bin" <<'PY'
+import ctypes
+import os
+import sys
+
+os.environ.setdefault("DYLD_LIBRARY_PATH", sys.argv[2])
+try:
+    ctypes.CDLL(sys.argv[1])
+except OSError:
+    sys.exit(1)
+sys.exit(0)
+PY
+}
+
+ensure_exfat_xul_on_apfs() {
+  local objdir="$1"
+  local dist_xul dist_bin xul_path
+  [[ -n "$objdir" ]] || return 0
+  exfat_build_volume "$objdir" || return 0
+  dist_xul="$objdir/dist/bin/XUL"
+  dist_bin="$objdir/dist/bin"
+  xul_path="$dist_xul"
+  if [[ -L "$dist_xul" ]]; then
+    xul_path="$(readlink -f "$dist_xul" 2>/dev/null || readlink "$dist_xul")"
+  fi
+  if xul_binary_is_loadable "$xul_path" "$dist_bin"; then
+    return 0
+  fi
+  log "ExFAT build volume: linking XUL on APFS (object dir stays on external disk)"
+  "$ROOT/scripts/link-xul-apfs.sh"
+}
+
+exfat_build_volume() {
+  local path="$1"
+  [[ -e "$path" ]] || return 1
+  [[ "$(diskutil info -plist "$path" 2>/dev/null | plutil -extract FilesystemName raw - 2>/dev/null)" == "ExFAT" ]]
+}
+
+# Link temp files on the boot volume; keep MOZ_OBJDIR on the external disk.
+exfat_safe_build_env() {
+  export TMPDIR="${TMPDIR:-$HOME/.mozbuild/tmp}"
+  export COPYFILE_DISABLE=1
+  mkdir -p "$TMPDIR"
+}
+
+rebuild_native_binaries() {
+  local jobs="$1"
+  local objdir="${2:-}"
+  if pgrep -f "[/]mach build" >/dev/null 2>&1; then
+    echo "A mach build is already running. Wait for it to finish, then run this script again." >&2
+    exit 1
+  fi
+  if [[ -n "$objdir" ]] && exfat_build_volume "$objdir"; then
+    jobs=1
+    log "ExFAT object directory detected; linking with a single job (safer on external volumes)"
+  fi
+  log "Native libraries look corrupt (often after an interrupted build); rebuilding binaries"
+  exfat_safe_build_env
+  (
+    cd engine
+    ./mach build binaries -j"$jobs"
+  )
+  npm run build:ui
+}
+
+prepare_macos_app_for_launch() {
+  local zen_bin="$1"
+  local macos_dir="$2"
+  local xul="$macos_dir/XUL"
+  local dist_bin objdir=""
+  dist_bin="$(cd "$macos_dir/../../.." && pwd)/bin"
+  if [[ -f "$ROOT/mozconfig" ]]; then
+    objdir="$(sed -n 's/^mk_add_options MOZ_OBJDIR=//p' "$ROOT/mozconfig" | tail -1 | tr -d '"')"
+  fi
+
+  ensure_exfat_xul_on_apfs "$objdir"
+  sync_macos_from_dist_bin "$zen_bin"
+  strip_appledouble_metadata "$macos_dir"
+  # Test artifacts sometimes land in MacOS and break ad-hoc codesign on zen.
+  [[ -d "$macos_dir/gtest" ]] && rm -rf "$macos_dir/gtest"
+
+  if ! xul_binary_is_loadable "$xul" "$dist_bin"; then
+    local mem_bytes cpus jobs
+    mem_bytes="$(sysctl -n hw.memsize)"
+    cpus="$(sysctl -n hw.ncpu)"
+    jobs=$(( mem_bytes / 1024 / 1024 / 1024 / 4 ))
+    if [[ "$jobs" -lt 2 ]]; then
+      jobs=2
+    fi
+    if [[ "$jobs" -gt "$cpus" ]]; then
+      jobs="$cpus"
+    fi
+    rebuild_native_binaries "$jobs" "$objdir"
+    ensure_exfat_xul_on_apfs "$objdir"
+    sync_macos_from_dist_bin "$zen_bin"
+    strip_appledouble_metadata "$macos_dir"
+    if ! xul_binary_is_loadable "$xul" "$dist_bin"; then
+      echo "XUL still cannot be loaded after rebuilding binaries." >&2
+      echo "Try: ./scripts/link-xul-apfs.sh && npm run build:ui" >&2
+      exit 1
+    fi
+  fi
+
+  if path_on_external_disk "$macos_dir"; then
+    log "External build volume detected; re-signing dev binaries before launch"
+    local binary signed=0 failed=0 sign_target
+    for binary in XUL libmozglue.dylib zen; do
+      sign_target="$macos_dir/$binary"
+      if [[ ! -e "$sign_target" ]]; then
+        continue
+      fi
+      if [[ -L "$sign_target" ]]; then
+        sign_target="$(readlink -f "$sign_target" 2>/dev/null || readlink "$sign_target")"
+      fi
+      if codesign -f -s - "$sign_target"; then
+        signed=$((signed + 1))
+      else
+        echo "Warning: could not re-sign $binary" >&2
+        failed=$((failed + 1))
+      fi
+    done
+    if [[ "$signed" -eq 0 ]]; then
+      echo "Warning: no binaries were re-signed; the app may crash on launch." >&2
+    elif [[ "$failed" -gt 0 ]]; then
+      echo "Warning: some binaries failed to re-sign ($failed)." >&2
+    fi
   fi
 }
 
 if [[ "$REBUILD" -eq 0 ]] && browser="$(find_browser)"; then
-  resign_macos_app_if_needed "$browser"
+  macos_dir="$(dirname "$browser")"
+  prepare_macos_app_for_launch "$browser" "$macos_dir"
   log "Launching $browser"
   exec npm start
 fi
