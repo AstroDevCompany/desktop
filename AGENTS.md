@@ -7,3 +7,4 @@
 - Always close leftover terminals & processes when done.
 - When done implementing a change, always run "npm run import" to look for possible errors and fix them.
 - Never blindly replace local files with the upstream without explicit per-file consent.
+- After every change, tell the user if a full rebuild, a UI-rebuilt or none are needed to apply the changes.
