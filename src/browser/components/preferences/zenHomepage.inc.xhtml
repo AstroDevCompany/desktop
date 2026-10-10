@@ -1,0 +1,61 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+<html:template id="template-paneZenHomepage">
+
+<hbox id="zenHomepageCategory"
+      class="subcategory"
+      hidden="true"
+      data-category="paneZenHomepage">
+<html:h1 data-l10n-id="zen-homepage-section-title"/>
+</hbox>
+
+<groupbox id="zenHomepageGroup" data-category="paneZenHomepage" hidden="true" class="highlighting-group">
+      <label><html:h2 data-l10n-id="zen-homepage-header"/></label>
+      <description class="description-deemphasized" data-l10n-id="zen-homepage-description" />
+
+      <radiogroup id="zenHomepageMode" preference="zen.homepage.mode">
+            <radio value="builtin" data-l10n-id="zen-homepage-mode-builtin"/>
+            <radio value="blank" data-l10n-id="zen-homepage-mode-blank"/>
+            <radio value="custom" data-l10n-id="zen-homepage-mode-custom"/>
+      </radiogroup>
+
+      <hbox id="zenHomepageURLRow" align="center" hidden="true">
+            <label data-l10n-id="zen-homepage-url-label" control="zenHomepageURL"/>
+            <html:input id="zenHomepageURL" type="text"/>
+      </hbox>
+      <description id="zenHomepageURLInvalid"
+                   class="description-deemphasized"
+                   data-l10n-id="zen-homepage-url-invalid"
+                   hidden="true"/>
+</groupbox>
+
+<hbox id="zenHomepageCardsCategory"
+      class="subcategory"
+      hidden="true"
+      data-category="paneZenHomepage">
+<html:h1 data-l10n-id="zen-homepage-cards-header"/>
+</hbox>
+
+<groupbox id="zenHomepageCardsGroup" data-category="paneZenHomepage" hidden="true" class="highlighting-group">
+      <label><html:h2 data-l10n-id="zen-homepage-cards-header"/></label>
+      <description class="description-deemphasized" data-l10n-id="zen-homepage-cards-description" />
+
+      <checkbox data-l10n-id="zen-homepage-card-time-spent-toggle"
+                preference="zen.homepage.cards.time-spent"/>
+      <checkbox data-l10n-id="zen-homepage-card-top-site-toggle"
+                preference="zen.homepage.cards.top-site"/>
+      <checkbox data-l10n-id="zen-homepage-card-network-speed-toggle"
+                preference="zen.homepage.cards.network-speed"/>
+      <checkbox data-l10n-id="zen-homepage-card-downloads-toggle"
+                preference="zen.homepage.cards.downloads"/>
+      <checkbox data-l10n-id="zen-homepage-card-visited-sites-toggle"
+                preference="zen.homepage.cards.visited-sites"/>
+      <checkbox data-l10n-id="zen-homepage-card-version-toggle"
+                preference="zen.homepage.cards.version"/>
+      <checkbox data-l10n-id="zen-homepage-card-clock-toggle"
+                preference="zen.homepage.cards.clock"/>
+</groupbox>
+
+</html:template>

@@ -525,6 +525,53 @@ var gZenCKSSettings = {
   },
 };
 
+var gZenHomepageSettings = {
+  init() {
+    if (this.__hasInitialized) {
+      return;
+    }
+    this.__hasInitialized = true;
+    const { isValidHttpURL } = ChromeUtils.importESModule(
+      "resource:///modules/zen/homepage/ZenHomepage.sys.mjs"
+    );
+    const row = document.getElementById("zenHomepageURLRow");
+    const input = document.getElementById("zenHomepageURL");
+    const warning = document.getElementById("zenHomepageURLInvalid");
+    const mode = document.getElementById("zenHomepageMode");
+    input.value = Services.prefs.getStringPref("zen.homepage.url", "");
+
+    const syncRow = () => {
+      row.hidden =
+        Services.prefs.getStringPref("zen.homepage.mode", "builtin") !==
+        "custom";
+    };
+    const observer = {
+      observe() {
+        syncRow();
+      },
+    };
+    Services.prefs.addObserver("zen.homepage.mode", observer);
+    mode.addEventListener("command", syncRow);
+    mode.addEventListener("select", syncRow);
+    window.addEventListener("unload", () => {
+      Services.prefs.removeObserver("zen.homepage.mode", observer);
+    });
+    syncRow();
+
+    const commitURL = () => {
+      const value = input.value.trim();
+      if (value && !isValidHttpURL(value)) {
+        warning.hidden = false;
+        return;
+      }
+      warning.hidden = true;
+      input.value = value;
+      Services.prefs.setStringPref("zen.homepage.url", value);
+    };
+    input.addEventListener("change", commitURL);
+  },
+};
+
 var gZenAdblockSettings = {
   init() {
     const { gZenAdblock } = ChromeUtils.importESModule(
@@ -667,6 +714,51 @@ Preferences.addAll([
     id: "zen.adblock.level",
     type: "string",
     default: "medium",
+  },
+  {
+    id: "zen.homepage.mode",
+    type: "string",
+    default: "builtin",
+  },
+  {
+    id: "zen.homepage.url",
+    type: "string",
+    default: "",
+  },
+  {
+    id: "zen.homepage.cards.time-spent",
+    type: "bool",
+    default: true,
+  },
+  {
+    id: "zen.homepage.cards.top-site",
+    type: "bool",
+    default: true,
+  },
+  {
+    id: "zen.homepage.cards.network-speed",
+    type: "bool",
+    default: true,
+  },
+  {
+    id: "zen.homepage.cards.downloads",
+    type: "bool",
+    default: true,
+  },
+  {
+    id: "zen.homepage.cards.visited-sites",
+    type: "bool",
+    default: true,
+  },
+  {
+    id: "zen.homepage.cards.version",
+    type: "bool",
+    default: true,
+  },
+  {
+    id: "zen.homepage.cards.clock",
+    type: "bool",
+    default: true,
   },
 ]);
 

@@ -316,6 +316,7 @@
       _iconToData = undefined; // Unload icon data
       document.getElementById("zen-welcome").remove();
       document.documentElement.removeAttribute("zen-welcome-stage");
+      gZenHomepage?.sync();
       unlockWindowSize();
       for (const element of document.getElementById("browser").children) {
         if (kZenElementsToIgnore.includes(element.id)) {

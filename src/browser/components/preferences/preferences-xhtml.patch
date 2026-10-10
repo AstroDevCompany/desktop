@@ -11,10 +11,15 @@ index bb84d15bec4008ae48324a950a4d5ba7bec1d010..48b917a3ccdcbe3d368e3fd139ab5091
    <link rel="localization" href="branding/brand.ftl"/>
    <link rel="localization" href="browser/browser.ftl"/>
      <!-- Used by fontbuilder.js -->
-@@ -121,6 +123,31 @@
+@@ -121,6 +123,36 @@
          iconsrc="chrome://browser/skin/preferences/category-general.svg"
          data-l10n-id="pane-general-title">
        </html:moz-page-nav-button>
++      <html:moz-page-nav-button id="category-zen-homepage"
++        view="paneZenHomepage"
++        iconsrc="chrome://browser/skin/zen-icons/home.svg"
++        data-l10n-id="pane-zen-homepage-title">
++      </html:moz-page-nav-button>
 +      <html:moz-page-nav-button id="category-zen-sidebar-layout"
 +        view="paneZenSidebarLayout"
 +        iconsrc="chrome://browser/skin/customize.svg"
@@ -43,7 +48,7 @@ index bb84d15bec4008ae48324a950a4d5ba7bec1d010..48b917a3ccdcbe3d368e3fd139ab5091
        <html:moz-page-nav-button id="category-sync"
          hidden="true"
          view="paneSync"
-@@ -258,6 +280,11 @@
+@@ -258,6 +280,12 @@
  #include privacy.inc.xhtml
  #include sync.inc.xhtml
  #include moreFromMozilla.inc.xhtml
@@ -52,6 +57,7 @@ index bb84d15bec4008ae48324a950a4d5ba7bec1d010..48b917a3ccdcbe3d368e3fd139ab5091
 +#include zenSpacesTabs.inc.xhtml
 +#include zenKeyboardShortcuts.inc.xhtml
 +#include zenAdblock.inc.xhtml
++#include zenHomepage.inc.xhtml
          </vbox>
        </vbox>
      </vbox>

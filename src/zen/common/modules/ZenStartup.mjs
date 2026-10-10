@@ -64,7 +64,13 @@ class ZenStartup {
       gZenWorkspaces.init().then(() => {
         gZenUIManager.init();
         this.#initUIComponents();
+        try {
+          gZenHomepage?.init();
+        } catch (error) {
+          console.error("Zen homepage failed to start", error);
+        }
         this.#checkForWelcomePage();
+        gZenHomepage?.sync();
       });
     } catch (e) {
       console.error("ZenThemeModifier: Error initializing browser layout", e);

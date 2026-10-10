@@ -184,3 +184,13 @@ zen-window-sync-migration-dialog-accept = Got It
 zen-appmenu-new-blank-window =
     .label = New Blank Window
 
+zen-homepage-welcome = Welcome back, { $name }.
+zen-homepage-today = Today is { $date }.
+zen-homepage-tagline = Have a <span data-l10n-name="fresh">fresh</span> browsing experience!
+zen-homepage-card-time-spent = Time spent browsing
+zen-homepage-card-top-site = Most used website
+zen-homepage-card-network-speed = Avg. Network Speed
+zen-homepage-card-downloads = Nº Downloads
+zen-homepage-card-visited-sites = Nº Visited websites
+zen-homepage-card-version = Current Version
+

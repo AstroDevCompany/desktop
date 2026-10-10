@@ -2,6 +2,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+pane-zen-homepage-title = Homepage
+category-zen-homepage =
+    .tooltiptext = { pane-zen-homepage-title }
+
 pane-zen-sidebar-layout-title = Sidebar & layout
 category-zen-sidebar-layout =
     .tooltiptext = { pane-zen-sidebar-layout-title }
@@ -409,3 +413,31 @@ tab-key-behavior-tabs =
     .label = Use the tab key without CTRL to move between tabs
 tab-key-behavior-focus =
     .label = Use the tab key to move focus between form controls and links
+
+zen-homepage-section-title = Homepage
+zen-homepage-header = Homepage
+zen-homepage-description = Choose what appears when you open a new tab.
+zen-homepage-mode-builtin =
+    .label = Built-in homepage
+zen-homepage-mode-blank =
+    .label = Nothing
+zen-homepage-mode-custom =
+    .label = Custom URL
+zen-homepage-url-label = Homepage URL
+zen-homepage-url-invalid = Enter a valid http or https URL.
+zen-homepage-cards-header = Cards
+zen-homepage-cards-description = Choose which cards appear on the built-in homepage.
+zen-homepage-card-time-spent-toggle =
+    .label = Time spent browsing
+zen-homepage-card-top-site-toggle =
+    .label = Most used website
+zen-homepage-card-network-speed-toggle =
+    .label = Avg. Network Speed
+zen-homepage-card-downloads-toggle =
+    .label = Nº Downloads
+zen-homepage-card-visited-sites-toggle =
+    .label = Nº Visited websites
+zen-homepage-card-version-toggle =
+    .label = Current Version
+zen-homepage-card-clock-toggle =
+    .label = Clock

@@ -11,6 +11,7 @@ const lazy = {};
 
 ChromeUtils.defineESModuleGetters(lazy, {
   ZenSessionStore: "resource:///modules/zen/ZenSessionManager.sys.mjs",
+  ZenHomepage: "resource:///modules/zen/homepage/ZenHomepage.sys.mjs",
 });
 
 ChromeUtils.defineESModuleGetters(
@@ -238,11 +239,10 @@ class nsZenWorkspaces {
         return this._emptyTab;
       }
 
-      // Fall back to creating a new tab
-      // The homepage pref can hold several URLs separated by "|".
+      // Fall back to creating a new tab. Built-in and blank stay on
+      // about:blank; custom uses the validated homepage URL.
       const newTabUrl =
-        newTabTarget ||
-        Services.prefs.getStringPref("browser.startup.homepage").split("|")[0];
+        newTabTarget || lazy.ZenHomepage.getEmptyTabFallbackURL();
       let tab = gZenUIManager.openAndChangeToTab(newTabUrl);
 
       // Set workspace ID if available
@@ -3003,6 +3003,7 @@ class nsZenWorkspaces {
       isEmpty
     );
     document.documentElement.setAttribute("zen-has-empty-tab", isEmpty);
+    gZenHomepage?.sync();
   }
 
   async onLocationChange(event) {

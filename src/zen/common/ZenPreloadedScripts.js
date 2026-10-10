@@ -14,6 +14,7 @@
 
   let scripts = [
     "chrome://browser/content/ZenStartup.mjs",
+    "resource:///modules/zen/homepage/ZenHomepage.mjs",
     "resource:///modules/zen/ZenSpaceManager.mjs",
     "chrome://browser/content/zen-components/ZenCompactMode.mjs",
     "chrome://browser/content/ZenUIManager.mjs",

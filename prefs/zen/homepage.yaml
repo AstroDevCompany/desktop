@@ -1,0 +1,38 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# builtin | blank | custom. Built-in is the default empty-tab dashboard.
+- name: zen.homepage.mode
+  value: "builtin"
+
+- name: zen.homepage.url
+  value: ""
+
+- name: zen.homepage.cards.time-spent
+  value: true
+
+- name: zen.homepage.cards.top-site
+  value: true
+
+- name: zen.homepage.cards.network-speed
+  value: true
+
+- name: zen.homepage.cards.downloads
+  value: true
+
+- name: zen.homepage.cards.visited-sites
+  value: true
+
+- name: zen.homepage.cards.version
+  value: true
+
+- name: zen.homepage.cards.clock
+  value: true
+
+# Local usage counter for the "time spent browsing" card. Not synced.
+- name: zen.homepage.daily-active-ms
+  value: 0
+
+- name: zen.homepage.daily-active-day
+  value: ""

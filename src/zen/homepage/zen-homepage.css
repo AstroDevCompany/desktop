@@ -1,0 +1,219 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+@font-face {
+  font-family: "Zen Cal Sans";
+  src: url("chrome://browser/content/zen-fonts/CalSans-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Zen Poppins";
+  src: url("chrome://browser/content/zen-fonts/Poppins-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+#zen-homepage {
+  --zen-home-bg: #00aa74;
+  --zen-home-glow-inner: #d9b3e2;
+  --zen-home-glow-mid: #11ad9f;
+  --zen-home-glow-outer: #00aa74;
+  --zen-home-card-fill: rgba(255, 255, 255, 0.2);
+  --zen-home-card-stroke: rgba(255, 255, 255, 0.5);
+  --zen-home-card-radius: 20px;
+  --zen-home-card-blur: 8px;
+  --zen-home-text: #ffffff;
+  --zen-home-tagline-start: #00fff2;
+  --zen-home-tagline-end: #abb100;
+  --zen-home-title-size: 20px;
+  --zen-home-value-size: 60px;
+  --zen-home-welcome-size: 60px;
+  --zen-home-date-size: 30px;
+  --zen-home-tagline-size: 30px;
+
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  box-sizing: border-box;
+  overflow: auto;
+  opacity: 1;
+  color: var(--zen-home-text);
+  background-color: var(--zen-home-bg);
+  background-image: radial-gradient(
+    ellipse 90% 70% at 50% 48%,
+    var(--zen-home-glow-inner) 6%,
+    var(--zen-home-glow-mid) 54%,
+    var(--zen-home-glow-outer) 100%
+  );
+}
+
+#zen-homepage[hidden] {
+  display: none;
+}
+
+:root[zen-welcome-stage] #zen-homepage {
+  display: none;
+}
+
+.zen-homepage-glow {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: 78vmin;
+  height: 78vmin;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: radial-gradient(
+    closest-side,
+    var(--zen-home-glow-inner) 6%,
+    var(--zen-home-glow-mid) 54%,
+    transparent 100%
+  );
+  filter: blur(36px);
+  opacity: 1;
+  pointer-events: none;
+}
+
+.zen-homepage-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.14;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+.zen-homepage-content {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 48px 32px;
+}
+
+.zen-homepage-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+}
+
+.zen-homepage-welcome,
+.zen-homepage-date,
+.zen-homepage-tagline,
+.zen-homepage-card-value,
+.zen-homepage-clock {
+  font-family: "Zen Cal Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.zen-homepage-welcome {
+  font-size: var(--zen-home-welcome-size);
+  color: var(--zen-home-text);
+}
+
+.zen-homepage-date {
+  font-size: var(--zen-home-date-size);
+  color: var(--zen-home-text);
+}
+
+.zen-homepage-tagline {
+  margin: 0;
+  font-size: var(--zen-home-tagline-size);
+  background-image: linear-gradient(
+    to right,
+    var(--zen-home-tagline-start) 0%,
+    var(--zen-home-tagline-end) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.zen-homepage-fresh {
+  color: var(--zen-home-text);
+  -webkit-text-fill-color: var(--zen-home-text);
+  text-decoration-line: underline;
+  text-decoration-color: var(--zen-home-text);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.zen-homepage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
+  gap: 16px;
+  width: min(980px, 100%);
+}
+
+.zen-homepage-card,
+.zen-homepage-clock-card {
+  box-sizing: border-box;
+  opacity: 1;
+  background-color: var(--zen-home-card-fill);
+  border: 1px solid var(--zen-home-card-stroke);
+  border-radius: var(--zen-home-card-radius);
+  backdrop-filter: blur(var(--zen-home-card-blur));
+}
+
+.zen-homepage-card {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-items: start;
+  justify-items: center;
+  min-height: 168px;
+  padding: 18px 16px 20px;
+}
+
+.zen-homepage-card[hidden],
+.zen-homepage-clock-card[hidden] {
+  display: none;
+}
+
+.zen-homepage-card-title {
+  font-family: "Zen Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: var(--zen-home-title-size);
+  line-height: normal;
+  letter-spacing: 0;
+  text-align: center;
+  color: var(--zen-home-text);
+  align-self: start;
+}
+
+.zen-homepage-card-value {
+  align-self: center;
+  font-size: var(--zen-home-value-size);
+  color: var(--zen-home-text);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.zen-homepage-clock-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 280px;
+  padding: 12px 40px;
+}
+
+.zen-homepage-clock {
+  font-size: var(--zen-home-value-size);
+  color: var(--zen-home-text);
+}

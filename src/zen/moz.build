@@ -14,6 +14,7 @@ DIRS += [
     "drag-and-drop",
     "glance",
     "ghost-mode",
+    "homepage",
     "library",
     "live-folders",
     "mods",
