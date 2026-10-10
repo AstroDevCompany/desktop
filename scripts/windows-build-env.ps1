@@ -119,26 +119,77 @@ function Invoke-MachBootstrap([string]$EngineDir) {
     }
 }
 
+function Get-RunningMachBuild {
+    return @(Get-CimInstance Win32_Process -Filter "Name = 'python.exe'" -ErrorAction SilentlyContinue |
+        Where-Object { $_.CommandLine -match 'mach(\.py)?\s+build' })
+}
+
+function Get-MachBuildActivity {
+    $clang = Get-CimInstance Win32_Process -Filter "Name = 'clang.exe' OR Name = 'clang-cl.exe' OR Name = 'lld-link.exe'" -ErrorAction SilentlyContinue |
+        Sort-Object CreationDate -Descending |
+        Select-Object -First 1
+    if (-not $clang) {
+        return "waiting (configure or linking setup)"
+    }
+    $cmd = $clang.CommandLine
+    if ($cmd -match 'target-objects|Unified_[A-Za-z0-9_.]+|-Fo([A-Za-z0-9_.]+)\.obj') {
+        if ($Matches[1]) { return "compiling $($Matches[1]).obj" }
+    }
+    if ($cmd -match '([A-Za-z0-9_./\\-]+\.(cpp|c|cc|mm))\b') {
+        return "compiling $($Matches[1])"
+    }
+    if ($clang.Name -eq "lld-link.exe") {
+        return "linking"
+    }
+    return "compiling ($($clang.ProcessId))"
+}
+
 function Invoke-MachBuild {
     param(
         [string]$Root,
         [int]$Jobs
     )
+    $already = Get-RunningMachBuild
+    if ($already.Count -gt 0) {
+        $pidList = ($already | ForEach-Object { $_.ProcessId }) -join ", "
+        throw "mach build is already running (pid $pidList). A second build will stall both. Let the running one finish."
+    }
+
     $logDir = Join-Path $Root ".build-logs"
     New-Item -ItemType Directory -Force -Path $logDir | Out-Null
     $log = Join-Path $logDir "mach-build-$(Get-Date -Format 'yyyyMMdd-HHmmss').log"
+    $status = Join-Path $logDir "build-status.txt"
+    $engine = Join-Path $Root "engine"
     Write-Host "Build log: $log"
-    Write-Host "Tip: if the terminal looks frozen, open Task Manager and check that clang.exe is using CPU."
-    Write-Host "     Add Defender exclusions for $env:USERPROFILE\.mozbuild and $(Join-Path $Root 'engine')."
-    Push-Location (Join-Path $Root "engine")
+    Write-Host "Live status: $status"
+    Write-Host "A full optimized build on this machine takes about 3 hours. Progress is printed every 30 seconds."
+
+    $env:PYTHONUNBUFFERED = "1"
+    $env:PYTHONIOENCODING = "utf-8"
+    # cmd redirection avoids a PowerShell pipeline, which buffers output and can stall mach when the window is closed.
+    $proc = Start-Process -FilePath "cmd.exe" `
+        -ArgumentList @("/c", "python -u .\mach build --jobs $Jobs > `"$log`" 2>&1") `
+        -WorkingDirectory $engine `
+        -WindowStyle Hidden `
+        -PassThru
+
     try {
-        python3 .\mach build --jobs $Jobs 2>&1 | Tee-Object -FilePath $log
-        if ($LASTEXITCODE -ne 0) {
-            throw "mach build failed with exit code $LASTEXITCODE (see $log)"
+        while (-not $proc.HasExited) {
+            $activity = Get-MachBuildActivity
+            $line = "$(Get-Date -Format 'HH:mm:ss') pid=$($proc.Id) $activity"
+            Set-Content -Path $status -Value $line -Encoding ASCII
+            Write-Host $line
+            Start-Sleep -Seconds 30
+        }
+        $proc.Refresh()
+        if ($proc.ExitCode -ne 0) {
+            throw "mach build failed with exit code $($proc.ExitCode) (see $log)"
         }
     }
     finally {
-        Pop-Location
+        if (-not $proc.HasExited) {
+            Write-Host "Build still running as pid $($proc.Id). Closing this script does not stop it."
+        }
     }
 }
 
