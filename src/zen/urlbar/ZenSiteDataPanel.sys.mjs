@@ -15,6 +15,8 @@ ChromeUtils.defineESModuleGetters(lazy, {
   FeatureCallout: "resource:///modules/asrouter/FeatureCallout.sys.mjs",
   gZenAdblock: "resource:///modules/zen/adblock/ZenAdblockManager.sys.mjs",
   gZenBoostsManager: "resource:///modules/zen/boosts/ZenBoostsManager.sys.mjs",
+  gZenCookieConsent:
+    "resource:///modules/zen/cookieconsent/ZenCookieConsentManager.sys.mjs",
 });
 
 export class nsZenSiteDataPanel {
@@ -90,6 +92,9 @@ export class nsZenSiteDataPanel {
       .addEventListener("command", this);
     this.document
       .getElementById("zen-site-data-adblock-pause")
+      .addEventListener("click", this);
+    this.document
+      .getElementById("zen-site-data-cookie-consent-pause")
       .addEventListener("click", this);
     this.document
       .getElementById("zen-site-data-adblock-reset")
@@ -247,6 +252,7 @@ export class nsZenSiteDataPanel {
     this.#resetSiteOptionsList();
     this.#setSiteBoost();
     this.#setAdblock();
+    this.#setCookieConsent();
     this.#setSitePermissions();
     this.#setSiteSecurityInfo();
     this.#setSiteHeader();
@@ -344,6 +350,38 @@ export class nsZenSiteDataPanel {
     }
     gZenAdblock.setOverride(spec, null);
     this.#setAdblock();
+    this.#reloadCurrentPage();
+  }
+
+  #setCookieConsent() {
+    const section = this.document.getElementById(
+      "zen-site-data-cookie-consent-section"
+    );
+    const uri = this.window.gBrowser.currentURI;
+    const http = uri.schemeIs("http") || uri.schemeIs("https");
+    const { gZenCookieConsent } = lazy;
+    section.hidden = !http || !gZenCookieConsent.isEnabled();
+    if (section.hidden) {
+      return;
+    }
+    const paused = gZenCookieConsent.isPaused(uri.spec);
+    const pause = this.document.getElementById(
+      "zen-site-data-cookie-consent-pause"
+    );
+    pause.setAttribute("state", paused ? "block" : "allow");
+    this.document.l10n.setAttributes(
+      this.document.getElementById("zen-site-data-cookie-consent-pause-state"),
+      paused
+        ? "zen-site-data-cookie-consent-paused"
+        : "zen-site-data-cookie-consent-on"
+    );
+  }
+
+  #onCookieConsentPause() {
+    const spec = this.window.gBrowser.currentURI.spec;
+    const { gZenCookieConsent } = lazy;
+    gZenCookieConsent.setPaused(spec, !gZenCookieConsent.isPaused(spec));
+    this.#setCookieConsent();
     this.#reloadCurrentPage();
   }
 
@@ -1014,6 +1052,10 @@ export class nsZenSiteDataPanel {
   #onClickEvent(event) {
     if (event.target.closest?.("#zen-site-data-adblock-pause")) {
       this.#onAdblockPause();
+      return;
+    }
+    if (event.target.closest?.("#zen-site-data-cookie-consent-pause")) {
+      this.#onCookieConsentPause();
       return;
     }
     const id = event.target.id;

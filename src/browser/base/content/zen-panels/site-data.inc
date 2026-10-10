@@ -120,6 +120,24 @@
           </vbox>
         </hbox>
       </vbox>
+      <vbox id="zen-site-data-cookie-consent-section" class="zen-site-data-section">
+        <hbox class="zen-site-data-section-header">
+          <label data-l10n-id="zen-site-data-cookie-consent" flex="1" />
+        </hbox>
+        <hbox id="zen-site-data-cookie-consent-pause"
+              class="permission-popup-permission-item"
+              align="center"
+              role="group">
+          <toolbarbutton class="permission-popup-permission-icon zen-site-data-permission-icon zen-permission-shield-icon"
+                         closemenu="none" />
+          <vbox flex="1" class="permission-popup-permission-label-container" align="start">
+            <label class="permission-popup-permission-label"
+                   data-l10n-id="zen-site-data-cookie-consent-pause" />
+            <label id="zen-site-data-cookie-consent-pause-state"
+                   class="zen-permission-popup-permission-state-label" />
+          </vbox>
+        </hbox>
+      </vbox>
       <vbox class="zen-site-data-section">
         <hbox class="zen-site-data-section-header">
           <label data-l10n-id="zen-site-data-settings" flex="1" />

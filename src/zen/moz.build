@@ -9,6 +9,7 @@ EXTRA_PP_COMPONENTS += [
 DIRS += [
     "adblock",
     "boosts",
+    "cookie-consent",
     "common",
     "compact-mode",
     "drag-and-drop",

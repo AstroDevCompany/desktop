@@ -26,6 +26,13 @@ class ZenStartup {
     } catch (error) {
       console.error("ZenAdblock failed to start", error);
     }
+    try {
+      ChromeUtils.importESModule(
+        "resource:///modules/zen/cookieconsent/ZenCookieConsentManager.sys.mjs"
+      ).gZenCookieConsent.init();
+    } catch (error) {
+      console.error("ZenCookieConsent failed to start", error);
+    }
   }
 
   get #shouldUseWatermark() {

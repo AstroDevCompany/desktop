@@ -95,6 +95,22 @@ if (!Services.appinfo.inSafeMode) {
     remoteTypes: ["web", "file"],
     enablePreference: "zen.adblock.enabled",
   };
+  JSWINDOWACTORS.ZenCookieConsent = {
+    parent: {
+      esModuleURI: "resource:///actors/ZenCookieConsentParent.sys.mjs",
+    },
+    child: {
+      esModuleURI: "resource:///actors/ZenCookieConsentChild.sys.mjs",
+      events: {
+        DOMContentLoaded: {},
+        pageshow: {},
+      },
+    },
+    safeForUntrustedWebProcess: true,
+    allFrames: true,
+    remoteTypes: ["web"],
+    enablePreference: "zen.cookie-consent.enabled",
+  };
 }
 
 export let gZenActorsManager = {

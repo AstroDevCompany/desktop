@@ -235,6 +235,11 @@ zen-adblock-save-custom =
 zen-adblock-update-lists =
     .label = Update lists now
 
+zen-cookie-consent-header = Cookie popups
+zen-cookie-consent-description = Refuse cookie popups on every site and hide any that stay on screen. This stays on even if ad blocking is off, and you can pause it for one site from the site panel.
+zen-cookie-consent-enabled =
+    .label = Automatically refuse cookie popups
+
 pane-zen-CKS-title = Shortcuts
 category-zen-CKS =
     .tooltiptext = { pane-zen-shortcuts-title }

@@ -716,6 +716,11 @@ Preferences.addAll([
     default: "medium",
   },
   {
+    id: "zen.cookie-consent.enabled",
+    type: "bool",
+    default: true,
+  },
+  {
     id: "zen.homepage.mode",
     type: "string",
     default: "builtin",
