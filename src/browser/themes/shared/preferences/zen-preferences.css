@@ -373,6 +373,11 @@ html|setting-group:is([data-subcategory="layout"], [groupid="support"], [groupid
   min-width: 0;
 }
 
+#zenHomepageURL {
+  flex: 1;
+  min-width: 240px;
+}
+
 @media -moz-pref("zen.urlbar.replace-newtab") {
   #category-home {
     display: none !important;

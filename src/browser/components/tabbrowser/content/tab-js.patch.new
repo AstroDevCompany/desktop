@@ -1,7 +1,5 @@
-diff --git a/browser/components/tabbrowser/content/tab.js b/browser/components/tabbrowser/content/tab.js
-index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8c579171b 100644
---- a/browser/components/tabbrowser/content/tab.js
-+++ b/browser/components/tabbrowser/content/tab.js
+﻿--- "C:\\Users\\luca\\Desktop\\dev\\desktop\\engine\\browser\\components\\tabbrowser\\content\\tab.js.orig"	2026-10-05 19:50:59.000000000 +0200
++++ "C:\\Users\\luca\\Desktop\\dev\\desktop\\engine\\browser\\components\\tabbrowser\\content\\tab.js"	2026-10-09 19:34:17.487196500 +0200
 @@ -21,9 +21,11 @@
            <hbox class="tab-group-line"/>
          </vbox>
@@ -14,20 +12,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
              <html:img class="tab-icon-image" role="presentation" decoding="sync" />
              <image class="tab-sharing-icon-overlay" role="presentation"/>
              <image class="tab-icon-overlay" role="presentation"/>
-@@ -35,9 +37,12 @@
-                 pack="center"
-                 flex="1">
-             <label class="tab-text tab-label" role="presentation"/>
-+            <label class="zen-tab-sublabel" data-l10n-id="zen-tab-sublabel" data-l10n-args='{"tabSubtitle": "zen-default-pinned"}' role="presentation"/>
-           </vbox>
-           <image class="tab-note-icon" role="presentation"/>
-+          <image class="tab-split-button split-icon" role="button" data-l10n-id="tab-zen-split-tabs" data-l10n-args='{"tabCount": 1}' keyNav="false"/>
-           <image class="tab-close-button close-icon" role="button" data-l10n-id="tabbrowser-close-tabs-button" data-l10n-args='{"tabCount": 1}' keyNav="false"/>
-+          <image class="tab-reset-button reset-icon" role="button" data-l10n-id="tabbrowser-unload-tab-button" data-l10n-args='{"tabCount": 1}' keyNav="false"/>
-         </hbox>
-       </stack>
-       `;
-@@ -84,7 +89,7 @@
+@@ -84,7 +86,7 @@
          ".tab-content":
            "pinned,selected=visuallyselected,multiselected,titlechanged,attention",
          ".tab-icon-stack":
@@ -36,7 +21,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
          ".tab-throbber":
            "fadein,pinned,busy,progress,selected=visuallyselected",
          ".tab-icon-pending":
-@@ -93,9 +98,9 @@
+@@ -93,9 +95,9 @@
            "src=image,requestcontextid,fadein,pinned,selected=visuallyselected,busy,crashed,sharing,pictureinpicture,pending,discarded",
          ".tab-sharing-icon-overlay": "sharing,selected=visuallyselected,pinned",
          ".tab-icon-overlay":
@@ -48,7 +33,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
          ".tab-label-container":
            "pinned,selected=visuallyselected,labeldirection",
          ".tab-label":
-@@ -194,7 +199,7 @@
+@@ -194,7 +196,7 @@
      }
  
      set _visuallySelected(val) {
@@ -57,7 +42,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
          return;
        }
  
-@@ -226,11 +231,25 @@
+@@ -226,11 +228,25 @@
      }
  
      get visible() {
@@ -88,7 +73,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
      }
  
      get hidden() {
-@@ -315,7 +334,7 @@
+@@ -315,7 +331,7 @@
          return false;
        }
  
@@ -97,7 +82,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
      }
  
      get lastAccessed() {
-@@ -400,7 +419,18 @@
+@@ -400,7 +416,18 @@
      }
  
      get group() {
@@ -117,7 +102,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
      }
  
      get splitview() {
-@@ -482,6 +512,10 @@
+@@ -482,6 +509,10 @@
          }
        }
  
@@ -128,7 +113,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
        // If the previous target wasn't part of this tab then this is a mouseenter event.
        if (!this.contains(event.relatedTarget)) {
          this._mouseenter();
-@@ -511,6 +545,7 @@
+@@ -511,6 +542,7 @@
        if (!this.contains(event.relatedTarget)) {
          this._mouseleave();
        }
@@ -136,7 +121,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
      }
  
      on_dragstart(event) {
-@@ -522,6 +557,8 @@
+@@ -522,6 +554,8 @@
        if (event.eventPhase == Event.CAPTURING_PHASE) {
          this.style.MozUserFocus = "";
        } else if (
@@ -145,7 +130,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
          event.target.classList?.contains("tab-close-button") ||
          gSharedTabWarning.willShowSharedTabWarning(this)
        ) {
-@@ -545,6 +582,9 @@
+@@ -545,6 +579,9 @@
          this.style.MozUserFocus = "ignore";
        } else if (
          event.target.classList.contains("tab-close-button") ||
@@ -155,7 +140,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
          event.target.classList.contains("tab-icon-overlay") ||
          event.target.classList.contains("tab-audio-button")
        ) {
-@@ -579,7 +619,7 @@
+@@ -579,7 +616,7 @@
            }
          } else if (
            event.altKey &&
@@ -164,7 +149,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
          ) {
            eventMaySelectTab = false;
          } else if (!this.selected && this.multiselected) {
-@@ -616,6 +656,10 @@
+@@ -616,6 +653,10 @@
        this.style.MozUserFocus = "";
      }
  
@@ -175,44 +160,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
      on_click(event) {
        if (event.button != 0) {
          return;
-@@ -639,16 +683,35 @@
-             trigger: "alt_click",
-           });
-         }
-+        if (
-+          !event.target.classList.contains("tab-close-button") &&
-+          !event.target.classList.contains("tab-split-button") &&
-+          !event.target.classList.contains("tab-icon-overlay") &&
-+          !event.target.classList.contains("tab-audio-button") &&
-+          Services.prefs.getBoolPref("zen.splitView.enable-tab-click-split", false)
-+        ) {
-+          if (!this.splitView) {
-+            gZenViewSplitter.contextSplitTabs(this);
-+          } else {
-+            gBrowser.selectedTab = this;
-+            gZenViewSplitter.removeTabFromGroup(this, undefined, {
-+              forUnsplit: true,
-+              changeTab: false
-+            });
-+          }
-+        }
-         return;
-       }
- 
--      if (event.getModifierState("Accel") || event.shiftKey) {
-+      if (event.shiftKey) {
-         return;
-       }
- 
-       if (
-+        !event.getModifierState("Accel") &&
-         gBrowser.multiSelectedTabsCount > 0 &&
-         !event.target.classList.contains("tab-close-button") &&
-+        !event.target.classList.contains("tab-split-button") &&
-         !event.target.classList.contains("tab-icon-overlay") &&
-         !event.target.classList.contains("tab-audio-button")
-       ) {
-@@ -658,8 +721,9 @@
+@@ -658,8 +699,9 @@
        }
  
        if (
@@ -224,7 +172,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
        ) {
          if (this.activeMediaBlocked) {
            if (this.multiselected) {
-@@ -677,7 +741,17 @@
+@@ -677,7 +719,17 @@
          return;
        }
  
@@ -243,7 +191,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
          if (this.multiselected) {
            gBrowser.removeMultiSelectedTabs({
              metricsContext: lazy.TabMetrics.userTriggeredContext(
-@@ -697,6 +771,14 @@
+@@ -697,6 +749,14 @@
          // (see tabbrowser-tabs 'click' handler).
          gBrowser.tabContainer._blockDblClick = true;
        }
@@ -258,7 +206,7 @@ index 6fcef5bf0f4ac8c58515afd127c7065f26251c7c..0307d79923612b8f728bf41c13b39aa8
      }
  
      on_dblclick(event) {
-@@ -723,6 +805,8 @@
+@@ -723,6 +783,8 @@
              lazy.TabMetrics.METRIC_SOURCE.TAB_STRIP
            ),
          });

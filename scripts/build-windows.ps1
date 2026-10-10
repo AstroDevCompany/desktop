@@ -17,28 +17,11 @@ param(
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $PSScriptRoot
 Set-Location $Root
+. (Join-Path $PSScriptRoot "windows-build-env.ps1")
 
 function Write-Step([string]$Message) {
     Write-Host ""
     Write-Host "==> $Message"
-}
-
-function Refresh-Path {
-    $machine = [Environment]::GetEnvironmentVariable("Path", "Machine")
-    $user = [Environment]::GetEnvironmentVariable("Path", "User")
-    $env:Path = "$machine;$user;$env:USERPROFILE\.cargo\bin"
-}
-
-function Install-WingetPackage([string]$Id) {
-    if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
-        throw "winget is not available. Install App Installer from the Microsoft Store, then run this script again."
-    }
-    winget install --id $Id -e --accept-package-agreements --accept-source-agreements
-    Refresh-Path
-}
-
-function Test-Command([string]$Name) {
-    return [bool](Get-Command $Name -ErrorAction SilentlyContinue)
 }
 
 function Get-ObjRoots {
@@ -62,7 +45,8 @@ if ($env:ZEN_RELEASE -and -not $env:ZEN_GA_DISABLE_PGO) {
 }
 
 if (-not $PackageOnly) {
-    Refresh-Path
+    Set-MachBuildEnvironment
+    Refresh-BuildPath
 
     Write-Step "Checking Git, Python 3.11, Node 22, and Rust"
     if (-not (Test-Command "git")) {
@@ -86,22 +70,13 @@ if (-not $PackageOnly) {
         Install-WingetPackage "7zip.7zip"
     }
 
-    $shim = Join-Path $env:TEMP "peppermint-browser-bin"
-    New-Item -ItemType Directory -Force -Path $shim | Out-Null
-    if (-not (Test-Command "python3")) {
-        "@echo off`r`npy -3.11 %*`r`n" | Set-Content -Path (Join-Path $shim "python3.cmd") -Encoding ASCII
-        $env:Path = "$shim;$env:Path"
-    }
+    Ensure-Python3
 
-    $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
-    $vsPath = $null
-    if (Test-Path $vswhere) {
-        $vsPath = & $vswhere -latest -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
-    }
+    $vsPath = Get-VisualStudioBuildToolsPath
     if (-not $vsPath) {
         Write-Step "Installing Visual Studio 2022 Build Tools"
         winget install --id Microsoft.VisualStudio.2022.BuildTools -e --accept-package-agreements --accept-source-agreements --override "--wait --passive --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
-        $vsPath = & $vswhere -latest -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+        $vsPath = Get-VisualStudioBuildToolsPath
         if (-not $vsPath) {
             throw "Visual Studio C++ tools are still missing. Install the Desktop development with C++ workload, then run this script again."
         }
@@ -188,25 +163,18 @@ if old in text:
     Write-Step "Selecting the Peppermint release brand"
     npm run surfer -- set brand release
 
-    Write-Step "Bootstrapping the Firefox build environment"
-    Push-Location engine
-    try {
-        python3 .\mach --no-interactive bootstrap --application-choice browser
-    }
-    finally {
-        Pop-Location
+    if (-not (Test-MachBootstrapReady)) {
+        Write-Step "Bootstrapping the Firefox build environment"
+        Invoke-MachBootstrap (Join-Path $Root "engine")
     }
 
     Write-Step "Copying English language packs"
     python3 .\scripts\update_en_US_packs.py
+    if ($LASTEXITCODE -ne 0) { throw "update_en_US_packs.py failed" }
 
-    $memGb = [math]::Floor((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB)
-    $cpus = [Environment]::ProcessorCount
-    $jobs = [math]::Max(2, [math]::Floor($memGb / 4))
-    if ($jobs -gt $cpus) { $jobs = $cpus }
-
+    $jobs = Get-MachBuildJobs
     Write-Step "Building Peppermint ($jobs jobs). The first build can take a few hours."
-    npm run build -- --jobs $jobs
+    Invoke-MachBuild $Root $jobs
 }
 
 if (-not (Test-Command "python3")) {
